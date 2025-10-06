@@ -1,0 +1,49 @@
+<div class="search-bar">
+  <!-- Icono de búsqueda o botón de limpiar -->
+  <div class="search-bar__icon" *ngIf="!hasText()">
+    <svg 
+      width="20" 
+      height="20" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round">
+      <circle cx="11" cy="11" r="8"></circle>
+      <path d="m21 21-4.35-4.35"></path>
+    </svg>
+  </div>
+  
+  <button
+    *ngIf="hasText()"
+    type="button"
+    class="search-bar__clear-button"
+    (click)="handleClear()"
+    [attr.aria-label]="'Limpiar búsqueda'">
+    <svg 
+      width="18" 
+      height="18" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"></line>
+      <line x1="6" y1="6" x2="18" y2="18"></line>
+    </svg>
+  </button>
+  
+  <!-- Input de búsqueda -->
+  <input
+    type="text"
+    [value]="value"
+    (input)="handleChange($event)"
+    [placeholder]="placeholder"
+    class="search-bar__input"
+    [disabled]="disabled"
+    [attr.aria-label]="'Campo de búsqueda'">
+</div>
+
+

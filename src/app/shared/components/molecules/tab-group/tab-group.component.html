@@ -1,0 +1,12 @@
+<div 
+  class="tab-group" 
+  role="tablist"
+  [style]="getTabGroupStyles()">
+  <app-tab
+    *ngFor="let tab of tabs"
+    [label]="getTabLabel(tab)"
+    [active]="activeTab === tab.id"
+    [disabled]="tab.disabled || false"
+    (click)="onTabClick(tab.id)">
+  </app-tab>
+</div>

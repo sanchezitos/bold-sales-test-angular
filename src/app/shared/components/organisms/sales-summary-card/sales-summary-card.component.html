@@ -1,0 +1,15 @@
+<div class="sales-summary-card">
+  <!-- Header con gradiente -->
+  <app-gradient-header
+    [title]="title"
+    [showInfo]="showInfo"
+    (infoClick)="onInfoClick()"
+    [infoTooltip]="infoTooltip || 'Más información'">
+  </app-gradient-header>
+
+  <!-- Contenido: Monto + Fecha -->
+  <div class="sales-summary-content">
+    <app-amount-display [amount]="amount" size="lg"></app-amount-display>
+    <app-date-label [date]="date" format="long"></app-date-label>
+  </div>
+</div>

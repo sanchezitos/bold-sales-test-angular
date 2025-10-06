@@ -1,0 +1,193 @@
+.button {
+  // Base styles
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+  font-family: inherit;
+  text-decoration: none;
+  white-space: nowrap;
+
+  // Focus styles
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  // Disabled state
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  // Loading state
+  &--loading {
+    cursor: wait;
+  }
+
+  // Full width
+  &--full-width {
+    width: 100%;
+  }
+
+  // Size variants
+  &--sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    min-height: 2rem;
+  }
+
+  &--md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    min-height: 2.5rem;
+  }
+
+  &--lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+    min-height: 3rem;
+  }
+
+  // Variant styles
+  &--primary {
+    background: linear-gradient(90deg, var(--bold-blue) 0%, var(--bold-red) 100%);
+    color: white;
+    box-shadow: var(--shadow-sm);
+
+    &:hover:not(:disabled) {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  &--secondary {
+    background: var(--background-secondary);
+    color: var(--foreground);
+    border: 1px solid var(--border);
+
+    &:hover:not(:disabled) {
+      background: var(--background-tertiary);
+      border-color: var(--border-hover);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--border);
+    }
+  }
+
+  &--accent {
+    background: var(--accent);
+    color: white;
+    box-shadow: var(--shadow-sm);
+    font-weight: 300;
+    font-family: var(--font-montserrat), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 1rem;
+    border-radius: 1.5rem;
+
+    &:hover:not(:disabled) {
+      background: var(--accent-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+
+  &--ghost {
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid transparent;
+
+    &:hover:not(:disabled) {
+      background: var(--background-secondary);
+      border-color: var(--border);
+    }
+
+    &:active:not(:disabled) {
+      background: var(--background-tertiary);
+    }
+  }
+
+  &--danger {
+    background: var(--danger);
+    color: white;
+    box-shadow: var(--shadow-sm);
+
+    &:hover:not(:disabled) {
+      background: var(--accent-hover);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-1px);
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+      box-shadow: var(--shadow-sm);
+    }
+  }
+}
+
+// Loading spinner
+.button-spinner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .spinner {
+    width: 1rem;
+    height: 1rem;
+    animation: spin 1s linear infinite;
+  }
+}
+
+.button-content-hidden {
+  opacity: 0;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .button {
+    &--sm {
+      padding: 0.5rem 0.75rem;
+      font-size: 0.8rem;
+    }
+
+    &--md {
+      padding: 0.75rem 1.25rem;
+      font-size: 0.9rem;
+    }
+
+    &--lg {
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
+    }
+  }
+}

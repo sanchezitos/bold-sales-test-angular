@@ -1,0 +1,92 @@
+<div 
+  class="skeleton-card"
+  [class.skeleton-card--compact]="compact"
+  [class.skeleton-card--loading]="loading">
+  
+  <!-- Card Header Skeleton -->
+  <div class="skeleton-card-header" *ngIf="showHeader">
+    <div class="skeleton-header-content">
+      <app-skeleton-circle 
+        *ngIf="showAvatar"
+        [size]="avatarSize"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-circle>
+      
+      <div class="skeleton-header-text">
+        <app-skeleton-text
+          [lines]="headerLines"
+          [lastLineWidth]="headerLastLineWidth"
+          [lineHeight]="headerLineHeight"
+          [animation]="animation"
+          [duration]="duration">
+        </app-skeleton-text>
+      </div>
+    </div>
+    
+    <div class="skeleton-header-actions" *ngIf="showHeaderActions">
+      <app-skeleton-rect
+        width="2rem"
+        height="2rem"
+        borderRadius="0.375rem"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-rect>
+    </div>
+  </div>
+
+  <!-- Card Body Skeleton -->
+  <div class="skeleton-card-body">
+    <!-- Title Skeleton -->
+    <div class="skeleton-title" *ngIf="showTitle">
+      <app-skeleton-text
+        [lines]="titleLines"
+        [lastLineWidth]="titleLastLineWidth"
+        [lineHeight]="titleLineHeight"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-text>
+    </div>
+
+    <!-- Content Skeleton -->
+    <div class="skeleton-content">
+      <app-skeleton-text
+        [lines]="contentLines"
+        [lastLineWidth]="contentLastLineWidth"
+        [lineHeight]="contentLineHeight"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-text>
+    </div>
+
+    <!-- Custom Content Skeleton -->
+    <div class="skeleton-custom-content" *ngIf="customContent">
+      <ng-content></ng-content>
+    </div>
+
+    <!-- Image Skeleton -->
+    <div class="skeleton-image" *ngIf="showImage">
+      <app-skeleton-rect
+        [width]="imageWidth"
+        [height]="imageHeight"
+        [borderRadius]="imageBorderRadius"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-rect>
+    </div>
+  </div>
+
+  <!-- Card Footer Skeleton -->
+  <div class="skeleton-card-footer" *ngIf="showFooter">
+    <div class="skeleton-footer-actions">
+      <app-skeleton-rect
+        *ngFor="let i of footerButtons"
+        width="5rem"
+        height="2rem"
+        borderRadius="0.375rem"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-rect>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<div class="filter-option" [class.filter-option--disabled]="disabled">
+  <input
+    type="checkbox"
+    [id]="checkboxId"
+    [checked]="checked"
+    [disabled]="disabled"
+    (change)="onChange($event)"
+    class="filter-option__checkbox">
+  
+  <label
+    [for]="checkboxId"
+    class="filter-option__label"
+    [class.filter-option__label--disabled]="disabled">
+    {{ label }}
+  </label>
+</div>
+
+

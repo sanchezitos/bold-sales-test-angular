@@ -1,0 +1,10 @@
+<div
+  [class]="skeletonClasses"
+  [style]="skeletonStyles"
+  [attr.aria-label]="'Cargando contenido'"
+  role="status"
+  [attr.aria-hidden]="!showAria">
+  <span class="sr-only">{{ ariaLabel }}</span>
+</div>
+
+

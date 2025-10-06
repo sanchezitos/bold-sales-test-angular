@@ -1,0 +1,78 @@
+<div 
+  class="pagination-container"
+  [style.border-color]="'var(--border)'">
+  
+  <!-- Info de rango - Solo en desktop -->
+  <div *ngIf="showInfo" class="pagination-info pagination-info--desktop">
+    Mostrando 
+    <span class="pagination-info-bold">{{ range().start }}</span> 
+    a 
+    <span class="pagination-info-bold">{{ range().end }}</span> 
+    de 
+    <span class="pagination-info-bold">{{ range().total }}</span> 
+    resultados
+  </div>
+
+  <!-- Controles de navegación -->
+  <div class="pagination-controls">
+    <!-- Botón anterior -->
+    <button
+      (click)="goToPreviousPage()"
+      [disabled]="!canPreviousPage"
+      class="pagination-button pagination-button--previous"
+      [style.background-color]="'var(--bold-red)'">
+      <span class="pagination-button-text pagination-button-text--desktop">Anterior</span>
+      <span class="pagination-button-text pagination-button-text--mobile">Anterior</span>
+      <span class="pagination-button-icon pagination-button-icon--mobile">◀️</span>
+    </button>
+
+    <!-- Números de página - Solo en desktop -->
+    <div class="pagination-pages pagination-pages--desktop">
+      <ng-container *ngFor="let page of pageNumbers()">
+        <span *ngIf="page === '...'" class="pagination-ellipsis">...</span>
+        <button
+          *ngIf="page !== '...'"
+          (click)="goToPage($any(page))"
+          class="pagination-page-button"
+          [style.background-color]="page === currentPage ? 'var(--bold-red)' : 'var(--background-secondary)'"
+          [style.color]="page === currentPage ? 'white' : 'var(--foreground)'">
+          {{ page }}
+        </button>
+      </ng-container>
+    </div>
+
+    <!-- Indicador móvil -->
+    <div class="pagination-mobile-indicator">
+      {{ currentPage }} / {{ totalPages }}
+    </div>
+
+    <!-- Botón siguiente -->
+    <button
+      (click)="goToNextPage()"
+      [disabled]="!canNextPage"
+      class="pagination-button pagination-button--next"
+      [style.background-color]="'var(--bold-red)'">
+      <span class="pagination-button-text pagination-button-text--desktop">Siguiente</span>
+      <span class="pagination-button-text pagination-button-text--mobile">Siguiente</span>
+      <span class="pagination-button-icon pagination-button-icon--mobile">▶️</span>
+    </button>
+  </div>
+
+  <!-- Selector de tamaño de página - Solo en desktop -->
+  <div *ngIf="showPageSizeSelector && onPageSizeChange" class="pagination-size-selector">
+    <span class="pagination-size-label">Mostrar</span>
+    <select
+      [value]="pageSize"
+      (change)="onPageSizeChange.emit(+$any($event.target).value)"
+      class="pagination-size-select">
+      <option *ngFor="let size of pageSizeOptions" [value]="size">{{ size }}</option>
+    </select>
+  </div>
+
+  <!-- Info móvil compacta -->
+  <div *ngIf="showInfo" class="pagination-info pagination-info--mobile">
+    {{ range().start }}-{{ range().end }} de {{ range().total }}
+  </div>
+</div>
+
+

@@ -1,0 +1,13 @@
+<span 
+  [class]="badgeClasses"
+  [attr.aria-label]="ariaLabel"
+  [title]="tooltip">
+  <ng-content></ng-content>
+  
+  <!-- Badge with number -->
+  <span *ngIf="count !== undefined && count > 0" class="badge-count">
+    {{ formatCount(count) }}
+  </span>
+</span>
+
+

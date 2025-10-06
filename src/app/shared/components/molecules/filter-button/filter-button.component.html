@@ -1,0 +1,43 @@
+<div class="filter-button-container">
+  <button
+    type="button"
+    [disabled]="disabled"
+    class="filter-button"
+    [class.filter-button--disabled]="disabled"
+    [attr.aria-label]="'Botón de filtros'"
+    (click)="onButtonClick()">
+      <span class="filter-button__text">Filtros</span>
+    
+    <!-- Filter Icon -->
+    <svg 
+      class="filter-button__icon"
+      width="20" 
+      height="20" 
+      viewBox="0 0 24 24" 
+      fill="none" 
+      stroke="currentColor" 
+      stroke-width="2" 
+      stroke-linecap="round" 
+      stroke-linejoin="round">
+      <polygon points="22,3 2,3 10,12.46 10,19 14,21 14,12.46"></polygon>
+    </svg>
+    
+    <!-- Badge de conteo de filtros activos -->
+    <span
+      *ngIf="count !== undefined && count > 0"
+      class="filter-button__badge">
+      {{ count }}
+    </span>
+  </button>
+
+  <!-- Filter Modal -->
+  <app-filter-modal
+    [isOpen]="isModalOpen"
+    [currentSalesTypes]="currentSalesTypes"
+    [currentPaymentMethods]="currentPaymentMethods"
+    (close)="onModalClose()"
+    (apply)="onFiltersApply($event)">
+  </app-filter-modal>
+</div>
+
+

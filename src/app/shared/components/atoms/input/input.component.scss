@@ -1,0 +1,259 @@
+.input-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+
+  &--error {
+    .input-wrapper {
+      border-color: var(--danger);
+      box-shadow: 0 0 0 1px var(--danger);
+    }
+  }
+}
+
+.input-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.input-required {
+  color: var(--danger);
+  font-weight: 700;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background: var(--background);
+  transition: all 0.2s ease;
+
+  &:focus-within {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(18, 30, 108, 0.1);
+  }
+
+  &:hover:not(.input-wrapper--disabled) {
+    border-color: var(--border-hover);
+  }
+
+  &--disabled {
+    background: var(--background-secondary);
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+}
+
+.input-element {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  color: var(--foreground);
+  font-family: inherit;
+  width: 100%;
+
+  &::placeholder {
+    color: var(--foreground-muted);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  // Size variants
+  &--sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    min-height: 2rem;
+  }
+
+  &--md {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    min-height: 2.5rem;
+  }
+
+  &--lg {
+    padding: 1rem 1.25rem;
+    font-size: 1.125rem;
+    min-height: 3rem;
+  }
+}
+
+// Size classes for wrapper
+.input-wrapper {
+  &--sm .input-element {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    min-height: 2rem;
+  }
+
+  &--md .input-element {
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+    min-height: 2.5rem;
+  }
+
+  &--lg .input-element {
+    padding: 1rem 1.25rem;
+    font-size: 1.125rem;
+    min-height: 3rem;
+  }
+
+  // Icon padding adjustments
+  &--sm.input-wrapper--prefix .input-element {
+    padding-left: 2.5rem;
+  }
+
+  &--md.input-wrapper--prefix .input-element {
+    padding-left: 2.75rem;
+  }
+
+  &--lg.input-wrapper--prefix .input-element {
+    padding-left: 3rem;
+  }
+
+  &--sm.input-wrapper--suffix .input-element {
+    padding-right: 2.5rem;
+  }
+
+  &--md.input-wrapper--suffix .input-element {
+    padding-right: 2.75rem;
+  }
+
+  &--lg.input-wrapper--suffix .input-element {
+    padding-right: 3rem;
+  }
+}
+
+.input-icon {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--foreground-muted);
+  pointer-events: none;
+
+  &--prefix {
+    left: 0.75rem;
+  }
+
+  &--suffix {
+    right: 0.75rem;
+  }
+
+  i {
+    font-size: 1rem;
+  }
+}
+
+.input-clear {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  color: var(--foreground-muted);
+  cursor: pointer;
+  font-size: 1.25rem;
+  line-height: 1;
+  padding: 0.25rem;
+  border-radius: 50%;
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: var(--background-secondary);
+    color: var(--foreground);
+  }
+
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+.input-helper {
+  font-size: 0.75rem;
+  color: var(--foreground-secondary);
+  line-height: 1.4;
+}
+
+.input-error {
+  font-size: 0.75rem;
+  color: var(--danger);
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+
+  &::before {
+    content: '⚠';
+    font-size: 0.875rem;
+  }
+}
+
+// Variant styles
+.input-container {
+  &--filled .input-wrapper {
+    background: var(--background-secondary);
+    border: 1px solid transparent;
+
+    &:focus-within {
+      background: var(--background);
+      border-color: var(--primary);
+    }
+  }
+
+  &--outlined .input-wrapper {
+    background: transparent;
+    border: 2px solid var(--border);
+
+    &:focus-within {
+      border-color: var(--primary);
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .input-element {
+    &--sm {
+      padding: 0.5rem 0.5rem;
+      font-size: 0.8rem;
+    }
+
+    &--md {
+      padding: 0.75rem 0.75rem;
+      font-size: 0.9rem;
+    }
+
+    &--lg {
+      padding: 1rem 1rem;
+      font-size: 1rem;
+    }
+  }
+
+  .input-icon {
+    &--prefix {
+      left: 0.5rem;
+    }
+
+    &--suffix {
+      right: 0.5rem;
+    }
+  }
+}

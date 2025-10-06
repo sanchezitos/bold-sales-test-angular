@@ -1,0 +1,31 @@
+.skeleton-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+
+  &--loading {
+    // Loading state styles if needed
+  }
+
+  // Custom spacing
+  &:not(.skeleton-text--loading) {
+    gap: var(--skeleton-text-spacing, 0.5rem);
+  }
+
+  // Line height adjustments
+  app-skeleton {
+    display: block;
+    margin-bottom: 0;
+  }
+
+  // Responsive adjustments
+  @media (max-width: 768px) {
+    gap: 0.375rem;
+
+    app-skeleton {
+      // Smaller line height on mobile
+      height: 0.875rem !important;
+    }
+  }
+}

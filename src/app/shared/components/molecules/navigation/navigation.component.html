@@ -1,0 +1,14 @@
+<nav class="navigation" role="navigation">
+  <ul class="navigation-list">
+    <li *ngFor="let item of items" class="navigation-item">
+      <a 
+        [href]="item.href"
+        [class]="getLinkClasses(item)"
+        [attr.aria-current]="item.active ? 'page' : null">
+        {{ item.label }}
+      </a>
+    </li>
+  </ul>
+</nav>
+
+

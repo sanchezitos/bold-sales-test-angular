@@ -1,0 +1,58 @@
+/* ============================================
+   SKELETON LOADING ANIMATIONS
+   ============================================ */
+
+/* Base skeleton */
+.skeleton-base {
+  background-color: var(--skeleton-base);
+  border-radius: 0.25rem;
+}
+
+/* Animación shimmer */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0px,
+    var(--skeleton-highlight) 40px,
+    var(--skeleton-base) 80px
+  );
+  background-size: 200px 100%;
+  animation: shimmer var(--skeleton-duration, 1500ms) infinite linear;
+}
+
+/* Animación pulse */
+.skeleton-pulse {
+  animation: pulse var(--skeleton-duration, 1500ms) infinite ease-in-out;
+}
+
+/* Keyframes para animaciones */
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   UTILIDADES PARA SCROLLBAR
+   ============================================ */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}
+

@@ -1,0 +1,18 @@
+<div 
+  class="amount-display"
+  [class.amount-display--size-md]="size === 'md'"
+  [class.amount-display--size-lg]="size === 'lg'"
+  [class.amount-display--size-xl]="size === 'xl'">
+  
+  <span *ngIf="!loading; else loadingTemplate">
+    {{ formattedAmount() }}
+  </span>
+  
+  <ng-template #loadingTemplate>
+    <span class="amount-loading">
+      <span class="loading-dot">●</span>
+      <span class="loading-dot">●</span>
+      <span class="loading-dot">●</span>
+    </span>
+  </ng-template>
+</div>

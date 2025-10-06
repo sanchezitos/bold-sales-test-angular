@@ -1,0 +1,14 @@
+<div class="skeleton-text" [class.skeleton-text--loading]="loading">
+  <app-skeleton
+    *ngFor="let line of skeletonLines; trackBy: trackByIndex"
+    [width]="getLineWidth(line)"
+    [height]="lineHeight"
+    [borderRadius]="'0.25rem'"
+    [animation]="animation"
+    [duration]="duration"
+    [ariaLabel]="'Cargando línea de texto'"
+    [showAria]="false">
+  </app-skeleton>
+</div>
+
+

@@ -1,0 +1,28 @@
+<div [class]="cardClasses" [attr.aria-label]="ariaLabel">
+  <!-- Card Header -->
+  <div *ngIf="showHeader" class="card-header">
+    <div class="card-header-content">
+      <ng-container *ngIf="headerTemplate; else defaultHeader">
+        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
+      </ng-container>
+      <ng-template #defaultHeader>
+        <h3 *ngIf="title" class="card-title">{{ title }}</h3>
+      </ng-template>
+    </div>
+    <div *ngIf="headerActions" class="card-header-actions">
+      <ng-content select="[slot=header-actions]"></ng-content>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="card-body">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Card Footer -->
+  <div *ngIf="showFooter" class="card-footer">
+    <ng-container *ngTemplateOutlet="footerTemplate"></ng-container>
+  </div>
+</div>
+
+

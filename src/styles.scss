@@ -1,0 +1,254 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Import Google Fonts - Montserrat */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/* ============================================
+   VARIABLES DE TEMA - LIGHT MODE (default)
+   ============================================ */
+:root,
+:root.light {
+  /* Colores de marca Bold (Oficiales) */
+  --bold-blue: #121E6C;
+  --bold-red: #EE424E;
+  --bold-gray-dark: #606060;
+  --bold-gray-light: #F3F3F3;
+  --bold-background: #F6F4F9;
+  
+  /* Colores de fondo */
+  --background: #ffffff;
+  --background-secondary: #F6F4F9; /* Color oficial Bold */
+  --background-tertiary: #F3F3F3; /* Gris claro Bold */
+  
+  /* Texto */
+  --foreground: #121212;
+  --foreground-secondary: #606060; /* Gris oscuro Bold */
+  --foreground-muted: #8a8a8a;
+  
+  /* Bordes y divisores */
+  --border: #e0e0e0;
+  --border-hover: #d0d0d0;
+  
+  /* Colores de marca */
+  --primary: #121E6C; /* Azul Bold */
+  --primary-hover: #0d1548;
+  --primary-light: #e8ebf7;
+  
+  --accent: #EE424E; /* Rojo Bold */
+  --accent-hover: #d93842;
+  --accent-light: #fce8ea;
+  
+  /* Colores semánticos */
+  --secondary: #606060; /* Gris oscuro Bold */
+  --success: #28a745;
+  --success-light: #d4edda;
+  --warning: #ffc107;
+  --warning-light: #fff3cd;
+  --danger: #EE424E; /* Rojo Bold */
+  --danger-light: #fce8ea;
+  
+  /* Sombras */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  
+  /* Skeleton Loading */
+  --skeleton-base: #f0f0f0;
+  --skeleton-highlight: #ffffff;
+}
+
+/* ============================================
+   VARIABLES DE TEMA - DARK MODE (Twilight)
+   ============================================ */
+:root.dark {
+  /* Colores de marca Bold (brillantes para contraste perfecto) */
+  --bold-blue: #4A5FC8; /* Azul vibrante que destaca en púrpura */
+  --bold-red: #FF5A66; /* Rojo vibrante con excelente contraste */
+  --bold-gray-dark: #C5BFCF; /* Lavanda claro para texto secundario */
+  --bold-gray-light: #403955; /* Púrpura oscuro para tabs activos */
+  --bold-background: #2B2838; /* Base púrpura oscuro */
+  
+  /* Colores de fondo - Tema Twilight (Púrpura suave) */
+  --background: #2B2838; /* Fondo principal púrpura oscuro */
+  --background-secondary: #362F47; /* Cards y secciones - púrpura medio */
+  --background-tertiary: #403955; /* Hover y estados elevados */
+  
+  /* Texto - Tonos lavanda */
+  --foreground: #F0ECF5; /* Texto principal - blanco con tinte lavanda */
+  --foreground-secondary: #C5BFCF; /* Texto secundario - lavanda medio */
+  --foreground-muted: #9990A8; /* Texto deshabilitado - lavanda oscuro */
+  
+  /* Bordes y divisores - Sutiles pero visibles */
+  --border: #4A4456; /* Borde sutil púrpura */
+  --border-hover: #564F65; /* Borde en hover - más claro */
+  
+  /* Colores de marca (destacan perfectamente en púrpura) */
+  --primary: #4A5FC8; /* Azul Bold - contraste excelente */
+  --primary-hover: #5A6FD8; /* Azul más brillante en hover */
+  --primary-light: #2D2540; /* Fondo sutil para elementos primary */
+  
+  --accent: #FF5A66; /* Rojo Bold - vibrante y distintivo */
+  --accent-hover: #FF7080; /* Rojo más suave en hover */
+  --accent-light: #3D2832; /* Fondo sutil para elementos accent */
+  
+  /* Colores semánticos */
+  --secondary: #C5BFCF; /* Lavanda claro */
+  --success: #5DD87C; /* Verde vibrante para contraste */
+  --success-light: #2A3E32;
+  --warning: #FFD666; /* Amarillo cálido */
+  --warning-light: #3E3628;
+  --danger: #FF5A66; /* Mismo que accent */
+  --danger-light: #3D2832;
+  
+  /* Sombras - Púrpura oscuro para profundidad */
+  --shadow-sm: 0 1px 2px 0 rgba(20, 15, 27, 0.5);
+  --shadow: 0 1px 3px 0 rgba(20, 15, 27, 0.6), 0 1px 2px 0 rgba(20, 15, 27, 0.5);
+  --shadow-md: 0 4px 6px -1px rgba(20, 15, 27, 0.6), 0 2px 4px -1px rgba(20, 15, 27, 0.5);
+  --shadow-lg: 0 10px 15px -3px rgba(20, 15, 27, 0.7), 0 4px 6px -2px rgba(20, 15, 27, 0.6);
+  
+  /* Skeleton Loading */
+  --skeleton-base: #2a2a2a;
+  --skeleton-highlight: #3a3a3a;
+}
+
+/* ============================================
+   ESTILOS GLOBALES
+   ============================================ */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* Prevenir flash durante el cambio de tema */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ============================================
+   UTILIDADES PARA TRANSICIONES DE TEMA
+   ============================================ */
+.theme-transition,
+.theme-transition * {
+  transition: background-color 0.2s ease, 
+              border-color 0.2s ease, 
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+/* ============================================
+   MIXINS REUTILIZABLES
+   ============================================ */
+@mixin theme-transition {
+  transition: background-color 0.2s ease, 
+              border-color 0.2s ease, 
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+@mixin gradient-bold {
+  background: linear-gradient(90deg, var(--bold-blue) 0%, var(--bold-red) 100%);
+}
+
+@mixin card-base {
+  border-radius: 1rem;
+  border: 1px solid var(--border);
+  background-color: var(--background);
+  box-shadow: var(--shadow-md);
+  @include theme-transition;
+}
+
+@mixin button-base {
+  border-radius: 0.5rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  @include theme-transition;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  
+  &:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+}
+
+/* ============================================
+   GRADIENTES DE BOLD (Colores Oficiales)
+   ============================================ */
+.bg-gradient-bold {
+  background: linear-gradient(90deg, #121E6C 0%, #EE424E 100%);
+}
+
+.bg-gradient-bold-soft {
+  background: linear-gradient(90deg, #1e2875 0%, #f25560 100%);
+}
+
+.text-gradient-bold {
+  background: linear-gradient(90deg, #121E6C 0%, #EE424E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ============================================
+   SKELETON LOADING ANIMATIONS
+   ============================================ */
+.skeleton-base {
+  background-color: var(--skeleton-base);
+  border-radius: 0.25rem;
+}
+
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    var(--skeleton-base) 0px,
+    var(--skeleton-highlight) 40px,
+    var(--skeleton-base) 80px
+  );
+  background-size: 200px 100%;
+  animation: shimmer var(--skeleton-duration, 1500ms) infinite linear;
+}
+
+.skeleton-pulse {
+  animation: pulse var(--skeleton-duration, 1500ms) infinite ease-in-out;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ============================================
+   UTILIDADES PARA SCROLLBAR
+   ============================================ */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;  /* Chrome, Safari and Opera */
+}

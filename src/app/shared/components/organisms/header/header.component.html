@@ -1,0 +1,26 @@
+<header class="header">
+  <div class="header-container">
+    <div class="header-content">
+      <!-- Logo - Izquierda -->
+      <div class="header-logo">
+        <app-logo size="sm" variant="white" class="header-logo--mobile"></app-logo>
+        <app-logo size="md" variant="white" class="header-logo--desktop"></app-logo>
+      </div>
+
+      <!-- Navegación - Derecha -->
+      <div class="header-controls">
+        <!-- Navigation - Solo visible en desktop -->
+        <div class="header-navigation">
+          <app-navigation [items]="navigationItems"></app-navigation>
+        </div>
+        
+        <!-- Theme Toggle (opcional) -->
+        <div *ngIf="showThemeToggle" class="header-theme-toggle">
+          <app-theme-toggle 
+            className="header-theme-toggle-button">
+          </app-theme-toggle>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>

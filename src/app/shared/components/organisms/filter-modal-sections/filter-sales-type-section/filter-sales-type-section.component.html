@@ -1,0 +1,23 @@
+<div class="filter-sales-type-section">
+  <h4 class="filter-section-title">Tipo de Venta</h4>
+  
+  <div class="filter-options">
+    <app-filter-option
+      *ngFor="let option of salesTypeOptions"
+      [id]="'sales-type-' + option.value"
+      [label]="option.label"
+      [checked]="selectedSalesTypes.includes(option.value)"
+      (change)="handleToggle(option.value, $event)">
+    </app-filter-option>
+    
+    <!-- Opción: Ver todos -->
+    <app-filter-option
+      id="sales-type-all"
+      label="Ver todos"
+      [checked]="isViewAllActive"
+      (change)="handleViewAll()">
+    </app-filter-option>
+  </div>
+</div>
+
+

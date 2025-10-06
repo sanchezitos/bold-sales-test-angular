@@ -1,0 +1,7 @@
+<svg width="120" height="60" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Punto magenta (izquierda arriba) -->
+  <rect x="10" y="8" width="12" height="12" rx="2" fill="#CA0080"/>
+  
+  <!-- Letra N -->
+  <path d="M35 10 L35 50 L45 50 L45 22 L70 50 L80 50 L80 10 L70 10 L70 38 L45 10 L35 10 Z" fill="#200020"/>
+</svg>

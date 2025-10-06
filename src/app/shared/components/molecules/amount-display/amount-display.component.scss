@@ -1,0 +1,149 @@
+.amount-display {
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+
+  // Gradiente Bold (igual que el original)
+  background: linear-gradient(90deg, #121E6C 0%, #EE424E 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+
+  // Size variants (igual que el original)
+  &--size-md {
+    font-size: 1.5rem; // text-2xl
+  }
+
+  &--size-lg {
+    font-size: 1.875rem; // text-3xl
+  }
+
+  &--size-xl {
+    font-size: 2.25rem; // text-4xl
+  }
+
+  // Responsive para xl
+  @media (min-width: 768px) {
+    &--size-xl {
+      font-size: 3rem; // md:text-5xl
+    }
+  }
+}
+
+
+.amount-loading {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.125rem;
+
+  .loading-dot {
+    display: inline-block;
+    width: 0.25rem;
+    height: 0.25rem;
+    border-radius: 50%;
+    background: var(--foreground-muted);
+    animation: loadingPulse 1.4s infinite ease-in-out;
+
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
+  }
+}
+
+@keyframes loadingPulse {
+  0%, 80%, 100% {
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .amount-value {
+    &--size-sm {
+      font-size: 0.8rem;
+    }
+
+    &--size-md {
+      font-size: 0.9rem;
+    }
+
+    &--size-lg {
+      font-size: 1.1rem;
+    }
+
+    &--size-xl {
+      font-size: 1.25rem;
+    }
+  }
+
+  .amount-currency {
+    &--small {
+      font-size: 0.7rem;
+    }
+  }
+
+  .amount-suffix {
+    font-size: 0.8rem;
+
+    &--small {
+      font-size: 0.7rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .amount-display {
+    gap: 0.125rem;
+  }
+
+  .amount-value {
+    &--size-sm {
+      font-size: 0.75rem;
+    }
+
+    &--size-md {
+      font-size: 0.85rem;
+    }
+
+    &--size-lg {
+      font-size: 1rem;
+    }
+
+    &--size-xl {
+      font-size: 1.1rem;
+    }
+  }
+
+  .amount-suffix {
+    font-size: 0.75rem;
+    margin-left: 0.125rem;
+
+    &--small {
+      font-size: 0.65rem;
+    }
+  }
+}
+
+// Dark theme adjustments
+:root.dark {
+  .amount-currency {
+    color: var(--foreground-muted);
+  }
+
+  .amount-suffix {
+    color: var(--foreground-muted);
+  }
+
+  .amount-tooltip {
+    color: var(--foreground-secondary);
+  }
+}

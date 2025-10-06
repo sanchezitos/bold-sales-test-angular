@@ -1,0 +1,29 @@
+.filter-modal-content {
+  padding: 0;
+}
+
+.filter-modal-divider {
+  margin: 1.5rem 0;
+
+  hr {
+    border: none;
+    height: 1px;
+    background-color: var(--border);
+    margin: 0;
+  }
+}
+
+.filter-modal-section {
+  margin-bottom: 1.5rem;
+
+  .filter-section-title {
+    font-size: 0.875rem;
+    font-weight: 300;
+    color: var(--foreground);
+    margin: 0 0 1rem 0;
+  }
+}
+
+.filter-modal-actions {
+  margin-top: 2rem;
+}

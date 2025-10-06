@@ -1,0 +1,158 @@
+.transaction-card {
+  background-color: var(--background);
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  transition: all 0.2s ease;
+  width: 100%;
+  max-width: 450px;
+  min-width: 350px;
+  box-sizing: border-box;
+  overflow: hidden;
+
+  &--clickable {
+    cursor: pointer;
+
+    &:hover {
+      box-shadow: var(--shadow-md);
+      border-color: var(--border-hover);
+    }
+
+    &:active {
+      transform: scale(0.98);
+    }
+  }
+}
+
+.transaction-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.transaction-left {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.transaction-id-text {
+  font-size: 0.75rem;
+  font-family: monospace;
+  font-weight: 600;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  color: var(--foreground-secondary);
+  background-color: var(--bold-gray-light);
+  display: inline-block;
+}
+
+.transaction-status {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.transaction-status-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.transaction-status-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.transaction-status-title {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  margin: 0;
+  line-height: 1.2;
+}
+
+.transaction-status-date {
+  font-size: 0.75rem;
+  color: var(--foreground-secondary);
+  margin: 0;
+}
+
+.transaction-amount {
+  text-align: right;
+  flex-shrink: 0;
+  margin-left: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.transaction-amount-value {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--bold-blue);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.transaction-deduction {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--bold-red);
+  margin: 0;
+  line-height: 1.2;
+  white-space: nowrap;
+}
+
+.transaction-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.transaction-detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+.transaction-detail-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.payment-method-logo {
+  width: 1.5rem;
+  height: 1rem;
+  object-fit: contain;
+}
+
+.transaction-detail-text {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--foreground);
+  line-height: 1.2;
+}
+
+.transaction-detail-text-secondary {
+  font-size: 0.875rem;
+  color: var(--foreground-secondary);
+  line-height: 1.2;
+}

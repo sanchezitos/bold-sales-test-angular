@@ -1,0 +1,13 @@
+<div class="filter-payment-method-section">
+  <div class="filter-options">
+    <app-filter-option
+      *ngFor="let option of paymentMethodOptions"
+      [id]="'payment-method-' + option.value"
+      [label]="option.label"
+      [checked]="selectedPaymentMethods.includes(option.value)"
+      (change)="handleToggle(option.value, $event)">
+    </app-filter-option>
+  </div>
+</div>
+
+

@@ -1,0 +1,59 @@
+<div class="input-container" [class.input-container--error]="hasError">
+  <!-- Label -->
+  <label *ngIf="label" [for]="inputId" class="input-label">
+    {{ label }}
+    <span *ngIf="required" class="input-required" aria-label="required">*</span>
+  </label>
+
+  <!-- Input wrapper -->
+  <div class="input-wrapper">
+    <!-- Prefix icon -->
+    <span *ngIf="prefixIcon" class="input-icon input-icon--prefix" [attr.aria-hidden]="true">
+      <i [class]="prefixIcon"></i>
+    </span>
+
+    <!-- Input element -->
+    <input
+      [id]="inputId"
+      [type]="type"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [readonly]="readonly"
+      [required]="required"
+      [value]="value"
+      [attr.aria-label]="ariaLabel"
+      [attr.aria-describedby]="hasError ? inputId + '-error' : null"
+      class="input-element"
+      (input)="onInput($event)"
+      (blur)="onBlur()"
+      (focus)="onFocus()"
+    />
+
+    <!-- Suffix icon -->
+    <span *ngIf="suffixIcon" class="input-icon input-icon--suffix" [attr.aria-hidden]="true">
+      <i [class]="suffixIcon"></i>
+    </span>
+
+    <!-- Clear button -->
+    <button
+      *ngIf="clearable && value && !disabled"
+      type="button"
+      class="input-clear"
+      (click)="clearInput()"
+      [attr.aria-label]="'Limpiar campo'">
+      ×
+    </button>
+  </div>
+
+  <!-- Helper text -->
+  <div *ngIf="helperText && !hasError" class="input-helper">
+    {{ helperText }}
+  </div>
+
+  <!-- Error message -->
+  <div *ngIf="hasError" [id]="inputId + '-error'" class="input-error" role="alert">
+    {{ errorMessage }}
+  </div>
+</div>
+
+

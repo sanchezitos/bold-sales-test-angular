@@ -1,0 +1,41 @@
+<app-dropdown
+  [isOpen]="isOpenSignal"
+  (onClose)="onClose()"
+  title="Filtros"
+  width="md"
+  position="bottom-right"
+  [closeOnClickOutside]="true">
+  
+  <div class="filter-modal-content">
+    <!-- Sección: Tipo de venta -->
+    <app-filter-sales-type-section
+      [selectedSalesTypes]="localSalesTypes"
+      (selectionChange)="onSalesTypesChange($event)">
+    </app-filter-sales-type-section>
+    
+    <!-- Divisor -->
+    <div class="filter-modal-divider">
+      <hr>
+    </div>
+    
+    <!-- Sección: Métodos de pago -->
+    <div class="filter-modal-section">
+      <h4 class="filter-section-title">Métodos de Pago</h4>
+      <app-filter-payment-method-section
+        [selectedPaymentMethods]="localPaymentMethods"
+        (selectionChange)="onPaymentMethodsChange($event)">
+      </app-filter-payment-method-section>
+    </div>
+    
+    <!-- Botón Aplicar -->
+    <div class="filter-modal-actions">
+      <app-button
+        variant="accent"
+        size="lg"
+        [fullWidth]="true"
+        (clicked)="handleApply()">
+        Aplicar
+      </app-button>
+    </div>
+  </div>
+</app-dropdown>

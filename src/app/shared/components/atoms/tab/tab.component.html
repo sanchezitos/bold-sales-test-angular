@@ -1,0 +1,11 @@
+<button
+  type="button"
+  [disabled]="disabled"
+  [class]="getTabClasses()"
+  [style]="getTabStyles()"
+  [attr.aria-selected]="active"
+  role="tab">
+  {{ label }}
+</button>
+
+

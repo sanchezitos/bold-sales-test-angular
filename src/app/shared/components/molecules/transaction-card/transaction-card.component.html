@@ -1,0 +1,62 @@
+<div 
+  class="transaction-card"
+  [class.transaction-card--clickable]="clickable"
+  (click)="onCardClick()"
+  [attr.aria-label]="'Tarjeta de transacción ' + transaction.transactionReference">
+  
+  <!-- Header: ID + Estado + Monto -->
+  <div class="transaction-header">
+    <!-- ID y Estado (en la misma línea) -->
+    <div class="transaction-left">
+      <!-- ID de Transacción -->
+      <span class="transaction-id-text">{{ transaction.transactionReference }}</span>
+      
+      <!-- Estado -->
+      <div class="transaction-status">
+        <div 
+          class="transaction-status-icon"
+          [style.background-color]="getStatusColor() + '20'">
+          <span [innerHTML]="getStatusIcon()"></span>
+        </div>
+        <div class="transaction-status-info">
+          <p class="transaction-status-title">{{ getStatusTitle() }}</p>
+          <p class="transaction-status-date">{{ formatDateTime(transaction.createdAt) }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Monto -->
+    <div class="transaction-amount">
+      <p class="transaction-amount-value">{{ formatCurrency(transaction.amount) }}</p>
+      <p 
+        *ngIf="showDeduction && transaction.deduction && transaction.deduction > 0"
+        class="transaction-deduction">
+        - {{ formatCurrency(transaction.deduction) }}
+      </p>
+    </div>
+  </div>
+
+  <!-- Información Principal -->
+  <div class="transaction-details">
+    <!-- Método de Pago -->
+    <div class="transaction-detail-item">
+      <div class="transaction-detail-icon">
+        <img 
+          [src]="getPaymentMethodLogo()" 
+          [alt]="'Logo ' + transaction.paymentMethod"
+          class="payment-method-logo">
+      </div>
+      <span class="transaction-detail-text">{{ getPaymentMethodDisplay() }}</span>
+    </div>
+
+    <!-- Tipo de Venta -->
+    <div class="transaction-detail-item">
+      <div class="transaction-detail-icon">
+        <span [innerHTML]="getSalesTypeIcon()"></span>
+      </div>
+      <span class="transaction-detail-text-secondary">{{ getSalesTypeText() }}</span>
+    </div>
+  </div>
+</div>
+
+

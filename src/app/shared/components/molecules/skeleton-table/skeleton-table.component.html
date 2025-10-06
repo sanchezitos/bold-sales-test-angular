@@ -1,0 +1,186 @@
+<div class="skeleton-table-container">
+  <!-- Table Header Skeleton -->
+  <div class="skeleton-table-header" *ngIf="showTitle">
+    <div class="skeleton-header-content">
+      <app-skeleton-text
+        [lines]="1"
+        [lastLineWidth]="'40%'"
+        [lineHeight]="'1.25rem'"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-text>
+    </div>
+    <div class="skeleton-header-actions" *ngIf="showHeaderActions">
+      <app-skeleton-rect
+        width="3rem"
+        height="2rem"
+        borderRadius="0.375rem"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-rect>
+    </div>
+  </div>
+
+  <!-- Table Skeleton -->
+  <div class="skeleton-table-wrapper">
+    <table class="skeleton-table" [class.skeleton-table--compact]="compact">
+      <!-- Table Head Skeleton -->
+      <thead class="skeleton-table-head" *ngIf="showHeader">
+        <tr class="skeleton-table-row">
+          <th 
+            *ngFor="let column of skeletonColumns; trackBy: trackByIndex" 
+            class="skeleton-table-cell skeleton-table-cell--header"
+            [style.width]="column.width">
+            
+            <div class="skeleton-cell-content">
+              <app-skeleton-text
+                [lines]="1"
+                [lastLineWidth]="column.textWidth"
+                [lineHeight]="'1rem'"
+                [animation]="animation"
+                [duration]="duration">
+              </app-skeleton-text>
+              
+              <!-- Sort Icon Skeleton -->
+              <app-skeleton-rect
+                *ngIf="column.sortable"
+                width="1rem"
+                height="1rem"
+                borderRadius="0.125rem"
+                [animation]="animation"
+                [duration]="duration">
+              </app-skeleton-rect>
+            </div>
+          </th>
+          
+          <!-- Actions Column -->
+          <th 
+            *ngIf="showActions" 
+            class="skeleton-table-cell skeleton-table-cell--header skeleton-table-cell--actions"
+            style="width: 120px; text-align: center;">
+            
+            <div class="skeleton-cell-content">
+              <app-skeleton-text
+                [lines]="1"
+                [lastLineWidth]="'60%'"
+                [lineHeight]="'1rem'"
+                [animation]="animation"
+                [duration]="duration">
+              </app-skeleton-text>
+            </div>
+          </th>
+        </tr>
+      </thead>
+
+      <!-- Table Body Skeleton -->
+      <tbody class="skeleton-table-body">
+        <tr 
+          *ngFor="let row of skeletonRows; trackBy: trackByIndex" 
+          class="skeleton-table-row">
+          
+          <td 
+            *ngFor="let column of skeletonColumns; trackBy: trackByIndex" 
+            class="skeleton-table-cell skeleton-table-cell--body">
+            
+            <div class="skeleton-cell-content">
+              <!-- Different cell types based on column type -->
+              <ng-container [ngSwitch]="column.type">
+                
+                <!-- Avatar/Icon -->
+                <app-skeleton-circle
+                  *ngSwitchCase="'avatar'"
+                  [size]="column.size || '2rem'"
+                  [animation]="animation"
+                  [duration]="duration">
+                </app-skeleton-circle>
+
+                <!-- Image -->
+                <app-skeleton-rect
+                  *ngSwitchCase="'image'"
+                  [width]="column.width || '3rem'"
+                  [height]="column.height || '2rem'"
+                  [borderRadius]="column.borderRadius || '0.25rem'"
+                  [animation]="animation"
+                  [duration]="duration">
+                </app-skeleton-rect>
+
+                <!-- Badge/Status -->
+                <app-skeleton-rect
+                  *ngSwitchCase="'badge'"
+                  [width]="column.width || '4rem'"
+                  [height]="column.height || '1.5rem'"
+                  [borderRadius]="column.borderRadius || '0.75rem'"
+                  [animation]="animation"
+                  [duration]="duration">
+                </app-skeleton-rect>
+
+                <!-- Number/Currency -->
+                <app-skeleton-text
+                  *ngSwitchCase="'number'"
+                  [lines]="1"
+                  [lastLineWidth]="column.textWidth || '70%'"
+                  [lineHeight]="column.lineHeight || '1rem'"
+                  [animation]="animation"
+                  [duration]="duration">
+                </app-skeleton-text>
+
+                <!-- Text (default) -->
+                <app-skeleton-text
+                  *ngSwitchDefault
+                  [lines]="column.lines || 1"
+                  [lastLineWidth]="column.textWidth || '80%'"
+                  [lineHeight]="column.lineHeight || '1rem'"
+                  [animation]="animation"
+                  [duration]="duration">
+                </app-skeleton-text>
+              </ng-container>
+            </div>
+          </td>
+          
+          <!-- Actions Cell -->
+          <td 
+            *ngIf="showActions" 
+            class="skeleton-table-cell skeleton-table-cell--body skeleton-table-cell--actions">
+            
+            <div class="skeleton-actions">
+              <app-skeleton-rect
+                *ngFor="let action of skeletonActions; trackBy: trackByIndex"
+                [width]="action.width || '2rem'"
+                [height]="action.height || '2rem'"
+                [borderRadius]="action.borderRadius || '0.375rem'"
+                [animation]="animation"
+                [duration]="duration">
+              </app-skeleton-rect>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Pagination Skeleton -->
+  <div class="skeleton-pagination" *ngIf="showPagination">
+    <div class="skeleton-pagination-content">
+      <app-skeleton-text
+        [lines]="1"
+        [lastLineWidth]="'30%'"
+        [lineHeight]="'1rem'"
+        [animation]="animation"
+        [duration]="duration">
+      </app-skeleton-text>
+      
+      <div class="skeleton-pagination-nav">
+        <app-skeleton-rect
+          *ngFor="let i of skeletonPaginationButtons; trackBy: trackByIndex"
+          width="2rem"
+          height="2rem"
+          borderRadius="0.375rem"
+          [animation]="animation"
+          [duration]="duration">
+        </app-skeleton-rect>
+      </div>
+    </div>
+  </div>
+</div>
+
+

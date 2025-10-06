@@ -1,0 +1,58 @@
+/* ============================================
+   SISTEMA DE TEMAS
+   ============================================ */
+
+/* Transiciones globales para cambios de tema */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  /* Prevenir flash durante el cambio de tema */
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  transition: background-color 0.2s ease, color 0.2s ease;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* ============================================
+   UTILIDADES PARA TRANSICIONES DE TEMA
+   ============================================ */
+.theme-transition,
+.theme-transition * {
+  transition: background-color 0.2s ease, 
+              border-color 0.2s ease, 
+              color 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+/* ============================================
+   CLASES DE TEMA
+   ============================================ */
+.theme-light {
+  /* Hereda todas las variables de :root.light */
+}
+
+.theme-dark {
+  /* Hereda todas las variables de :root.dark */
+}
+
+/* ============================================
+   APLICACIÓN DE TEMA AL BODY
+   ============================================ */
+body.light {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+body.dark {
+  background: var(--background);
+  color: var(--foreground);
+}

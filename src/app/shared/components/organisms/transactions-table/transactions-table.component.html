@@ -1,0 +1,40 @@
+<div class="transactions-table">
+  <!-- Loading State -->
+  <div *ngIf="!transactions" class="transactions-table-loading">
+    <p class="transactions-table-loading-text">Cargando transacciones...</p>
+  </div>
+  <div>
+    <app-gradient-header
+    [title]="title || 'Transacciones'">
+</app-gradient-header>
+  </div>
+
+  <!-- Vista Desktop: Tabla -->
+  <div *ngIf="transactions && showTable()" class="transactions-table-desktop">
+    <app-data-table
+      [data]="transactions"
+      [columns]="tableColumns"
+      [getRowKey]="getRowKeyFn"
+      [emptyMessage]="'No se encontraron transacciones'"
+      [showRowBorder]="showRowBorderFn"
+      [rowBorderColor]="'var(--bold-blue)'"
+      [rowClassName]="'hover:bg-background-secondary/50'"
+      (rowClick)="onRowClick($event)">
+    </app-data-table>
+  </div>
+
+  <!-- Vista Mobile: Lista -->
+  <div *ngIf="transactions && !showTable()" class="transactions-table-mobile">
+    <div *ngIf="transactions.length === 0" class="transactions-table-empty">
+      <p>No se encontraron transacciones</p>
+    </div>
+    <div *ngFor="let transaction of transactions; trackBy: trackByFn" class="transactions-table-card">
+      <app-transaction-card
+        [transaction]="transaction"
+        [showDeduction]="showDeductions"
+        [clickable]="true"
+        (cardClick)="onTransactionClick($event)">
+      </app-transaction-card>
+    </div>
+  </div>
+</div>

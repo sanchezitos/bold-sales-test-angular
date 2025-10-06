@@ -1,0 +1,68 @@
+.skeleton {
+  background-color: var(--skeleton-base);
+  border-radius: 0.25rem;
+  display: block;
+  position: relative;
+  overflow: hidden;
+
+  // Animation variants
+  &--shimmer {
+    background: linear-gradient(
+      90deg,
+      var(--skeleton-base) 0px,
+      var(--skeleton-highlight) 40px,
+      var(--skeleton-base) 80px
+    );
+    background-size: 200px 100%;
+    animation: shimmer var(--skeleton-duration, 1500ms) infinite linear;
+  }
+
+  &--pulse {
+    animation: pulse var(--skeleton-duration, 1500ms) infinite ease-in-out;
+  }
+
+  &--none {
+    // No animation
+  }
+}
+
+// Screen reader only text
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// Keyframes for animations
+@keyframes shimmer {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: calc(200px + 100%) 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 768px) {
+  .skeleton {
+    &--shimmer {
+      background-size: 150px 100%;
+    }
+  }
+}
