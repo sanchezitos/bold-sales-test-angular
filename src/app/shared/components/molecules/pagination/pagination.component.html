@@ -5,11 +5,11 @@
   <!-- Info de rango - Solo en desktop -->
   <div *ngIf="showInfo" class="pagination-info pagination-info--desktop">
     Mostrando 
-    <span class="pagination-info-bold">{{ range().start }}</span> 
+    <span class="pagination-info-bold">{{ range.start }}</span> 
     a 
-    <span class="pagination-info-bold">{{ range().end }}</span> 
+    <span class="pagination-info-bold">{{ range.end }}</span> 
     de 
-    <span class="pagination-info-bold">{{ range().total }}</span> 
+    <span class="pagination-info-bold">{{ range.total }}</span> 
     resultados
   </div>
 
@@ -28,7 +28,7 @@
 
     <!-- Números de página - Solo en desktop -->
     <div class="pagination-pages pagination-pages--desktop">
-      <ng-container *ngFor="let page of pageNumbers()">
+      <ng-container *ngFor="let page of pageNumbers">
         <span *ngIf="page === '...'" class="pagination-ellipsis">...</span>
         <button
           *ngIf="page !== '...'"
@@ -71,7 +71,7 @@
 
   <!-- Info móvil compacta -->
   <div *ngIf="showInfo" class="pagination-info pagination-info--mobile">
-    {{ range().start }}-{{ range().end }} de {{ range().total }}
+    {{ range.start }}-{{ range.end }} de {{ range.total }}
   </div>
 </div>
 

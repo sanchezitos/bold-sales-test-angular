@@ -9,6 +9,15 @@
 </app-gradient-header>
   </div>
 
+  <!-- Search Bar -->
+  <div class="transactions-table-search">
+    <app-search-bar
+      [placeholder]="searchPlaceholder"
+      [value]="searchValue"
+      (search)="onSearchChange($event)">
+    </app-search-bar>
+  </div>
+
   <!-- Vista Desktop: Tabla -->
   <div *ngIf="transactions && showTable()" class="transactions-table-desktop">
     <div class="w-full overflow-x-auto">
@@ -33,7 +42,7 @@
           </tr>
           
           <tr 
-            *ngFor="let transaction of transactions; trackBy: trackByFn; let i = index"
+            *ngFor="let transaction of (paginatedTransactions$ | async); trackBy: trackByFn; let i = index"
             class="transactions-table-row"
             [class.transactions-table-row--bordered]="showRowBorderFn(transaction, i)"
             (click)="onTransactionClick(transaction)">
@@ -89,7 +98,7 @@
     <div *ngIf="transactions.length === 0" class="transactions-table-empty">
       <p>No se encontraron transacciones</p>
     </div>
-    <div *ngFor="let transaction of transactions; trackBy: trackByFn" class="transactions-table-card">
+    <div *ngFor="let transaction of (paginatedTransactions$ | async); trackBy: trackByFn" class="transactions-table-card">
       <app-transaction-card
         [transaction]="transaction"
         [showDeduction]="showDeductions"
@@ -97,5 +106,20 @@
         (cardClick)="onTransactionClick($event)">
       </app-transaction-card>
     </div>
+  </div>
+
+  <!-- Paginación -->
+  <div *ngIf="showPagination && transactions && transactions.length > 0" class="transactions-table-pagination">
+    <app-pagination
+      [currentPage]="currentPage"
+      [totalPages]="totalPages"
+      [pageSize]="pageSize"
+      [totalItems]="totalItems"
+      [canPreviousPage]="canPreviousPage"
+      [canNextPage]="canNextPage"
+      [pageSizeOptions]="paginationConfig.pageSizeOptions || [10, 20, 50, 100]"
+      (onPageChange)="onPageChange($event)"
+      (onPageSizeChange)="onPageSizeChange($event)">
+    </app-pagination>
   </div>
 </div>

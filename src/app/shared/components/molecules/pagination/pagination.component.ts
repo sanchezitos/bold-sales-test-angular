@@ -24,13 +24,13 @@ export class PaginationComponent {
   @Output() onPageSizeChange = new EventEmitter<number>();
 
   // Computed properties
-  range = computed(() => {
+  get range() {
     const start = this.totalItems === 0 ? 0 : (this.currentPage - 1) * this.pageSize + 1;
     const end = Math.min(this.currentPage * this.pageSize, this.totalItems);
     return { start, end, total: this.totalItems };
-  });
+  }
 
-  pageNumbers = computed(() => {
+  get pageNumbers(): (number | string)[] {
     const pages: (number | string)[] = [];
 
     if (this.totalPages <= this.maxVisiblePages) {
@@ -39,7 +39,7 @@ export class PaginationComponent {
         pages.push(i);
       }
     } else {
-      // Mostrar con elipsis
+      // Mostrar con elipsis - misma lógica que React
       if (this.currentPage <= 3) {
         pages.push(1, 2, 3, 4, '...', this.totalPages);
       } else if (this.currentPage >= this.totalPages - 2) {
@@ -50,7 +50,7 @@ export class PaginationComponent {
     }
 
     return pages;
-  });
+  }
 
   // Methods
   goToPreviousPage(): void {
