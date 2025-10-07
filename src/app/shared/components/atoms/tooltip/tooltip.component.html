@@ -1,0 +1,23 @@
+<!-- Trigger element -->
+<div #triggerElement class="tooltip-trigger">
+  <ng-content></ng-content>
+</div>
+
+<!-- Tooltip portal -->
+<div 
+  *ngIf="isVisible"
+  #tooltipElement
+  class="tooltip-content"
+  [class]="className"
+  [style.top.px]="coords.top"
+  [style.left.px]="coords.left"
+  role="tooltip">
+  
+  {{ content }}
+  
+  <!-- Arrow -->
+  <div 
+    class="tooltip-arrow"
+    [style]="getArrowStyle()">
+  </div>
+</div>

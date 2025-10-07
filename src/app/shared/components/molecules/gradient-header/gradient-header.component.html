@@ -1,17 +1,20 @@
 <div class="gradient-header">
   <h3 class="gradient-header__title">{{ title }}</h3>
   
-  <button
+  <app-tooltip
     *ngIf="showInfo"
-    class="gradient-header__info-button"
-    type="button"
-    (click)="onInfoClick()"
-    [attr.aria-label]="'Más información'"
-    [title]="infoTooltip">
-    <img
-      src="/information.svg"
-      alt="Información"
-      width="15"
-      height="15">
-  </button>
+    [content]="infoTooltip"
+    position="bottom">
+    <button
+      class="gradient-header__info-button"
+      type="button"
+      (click)="onInfoClick()"
+      [attr.aria-label]="'Más información'">
+      <img
+        src="/information.svg"
+        alt="Información"
+        width="15"
+        height="15">
+    </button>
+  </app-tooltip>
 </div>

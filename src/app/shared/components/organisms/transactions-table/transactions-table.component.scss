@@ -4,6 +4,11 @@
   height: 100%;
   display: flex;
   flex-direction: column;
+  
+  @media (max-width: 768px) {
+    height: auto;
+    min-height: 100%;
+  }
 }
 
 .transactions-table-title {
@@ -11,6 +16,16 @@
   font-weight: 600;
   color: var(--foreground);
   margin: 0 0 1rem 0;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
+    margin: 0 0 0.875rem 0;
+  }
+  
+  @media (max-width: 480px) {
+    font-size: 0.9375rem;
+    margin: 0 0 0.75rem 0;
+  }
 }
 
 .transactions-table-loading {
@@ -34,9 +49,14 @@
   background-color: var(--background);
   width: 100%;
   flex: 1;
+  overflow-x: auto;
 
   @media (min-width: 768px) {
     display: block;
+  }
+  
+  @media (max-width: 1024px) {
+    overflow-x: auto;
   }
 }
 
@@ -44,9 +64,15 @@
   display: block;
   width: 100%;
   flex: 1;
+  padding: 0.5rem;
+  overflow-y: auto;
 
   @media (min-width: 768px) {
     display: none;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.375rem;
   }
 }
 
@@ -63,14 +89,29 @@
   padding: 1rem 1.5rem;
   background-color: var(--background);
   border-bottom: 1px solid var(--border);
+  
+  @media (max-width: 768px) {
+    padding: 0.875rem 1rem;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem 0.75rem;
+  }
 }
 
 .transactions-table-card {
   margin-bottom: 1rem;
-  background-color: "#000";
 
   &:last-child {
     margin-bottom: 0;
+  }
+  
+  @media (max-width: 768px) {
+    margin-bottom: 0.75rem;
+  }
+  
+  @media (max-width: 480px) {
+    margin-bottom: 0.625rem;
   }
 }
 
@@ -124,6 +165,16 @@
   text-align: left;
   color: var(--foreground);
   width: 100%;
+  
+  @media (max-width: 1024px) {
+    padding: 0.5rem 1rem;
+    font-size: 0.8125rem;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.375rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }
 
 .transactions-table-row {
@@ -145,6 +196,16 @@
   padding: 1rem 1.5rem;
   font-size: 0.875rem;
   vertical-align: middle;
+  
+  @media (max-width: 1024px) {
+    padding: 0.75rem 1rem;
+    font-size: 0.8125rem;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.75rem;
+  }
 }
 
 .transactions-table-empty-row {

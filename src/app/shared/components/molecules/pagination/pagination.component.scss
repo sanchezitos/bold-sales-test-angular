@@ -45,11 +45,17 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  width: 100%;
+  
+  @media (max-width: 640px) {
+    flex: 1;
+  }
 }
 
 .pagination-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 0.25rem;
   padding: 0.5rem 0.75rem;
   border-radius: 9999px;
@@ -59,11 +65,13 @@
   transition: all 0.2s ease;
   border: none;
   cursor: pointer;
+  flex: 1;  // Ocupar espacio disponible en móvil
 
   @media (min-width: 640px) {
     gap: 0.5rem;
     padding: 0.5rem 1.5rem;
     font-size: 0.875rem;
+    flex: 0 0 auto;  // Tamaño automático en desktop
   }
 
   &:disabled {
@@ -95,7 +103,7 @@
 
   &-icon {
     &--mobile {
-      display: inline;
+      display: none;  // Flechas ocultas en móvil
 
       @media (min-width: 640px) {
         display: none;
