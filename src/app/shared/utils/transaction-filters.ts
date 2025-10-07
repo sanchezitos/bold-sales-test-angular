@@ -4,6 +4,7 @@
 
 import { Transaction, PaymentMethod } from '../types/transaction.types';
 import { Filters, SalesType, DateFilter } from '../types/filters.types';
+import { getDateRangeForFilter } from './date-helpers';
 
 /**
  * Formatea el status de una transacción para mostrar
@@ -128,8 +129,7 @@ export function filterTransactionsByQuery(
 
 /**
  * Filtra transacciones por rango de fecha
- * Nota: Calcula fechas basándose en las transacciones más recientes,
- * no en la fecha actual del sistema (para manejar APIs con datos mock/futuros)
+ * Usa los helpers de fecha para calcular rangos correctamente
  */
 export function filterByDate(
   transactions: Transaction[],
@@ -140,39 +140,13 @@ export function filterByDate(
 
   // Encontrar la fecha más reciente en las transacciones
   const mostRecentTimestamp = Math.max(...transactions.map(t => t.createdAt));
-  const referenceDate = new Date(mostRecentTimestamp);
-  const today = new Date(
-    referenceDate.getFullYear(),
-    referenceDate.getMonth(),
-    referenceDate.getDate()
-  );
+  
+  // Usar el helper para obtener el rango de fechas
+  const dateRange = getDateRangeForFilter(dateFilter, mostRecentTimestamp);
 
   return transactions.filter((transaction) => {
     const transactionDate = new Date(transaction.createdAt);
-
-    switch (dateFilter) {
-      case 'today':
-        // Transacciones del día más reciente
-        return transactionDate >= today;
-
-      case 'week': {
-        // Últimos 7 días desde la fecha más reciente
-        const weekStart = new Date(today);
-        weekStart.setDate(today.getDate() - 7);
-        return transactionDate >= weekStart;
-      }
-
-      case 'september': {
-        // Mes de septiembre del año de referencia
-        const year = referenceDate.getFullYear();
-        const septemberStart = new Date(year, 8, 1); // Septiembre = mes 8 (0-indexed)
-        const septemberEnd = new Date(year, 9, 1); // Octubre = mes 9
-        return transactionDate >= septemberStart && transactionDate < septemberEnd;
-      }
-
-      default:
-        return true;
-    }
+    return transactionDate >= dateRange.start && transactionDate <= dateRange.end;
   });
 }
 

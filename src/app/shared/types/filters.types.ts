@@ -2,7 +2,7 @@
  * Tipos relacionados con los filtros del dashboard
  */
 
-export type DateFilter = 'today' | 'week' | 'september' | 'all';
+export type DateFilter = 'today' | 'week' | 'currentMonth' | 'september' | 'all';
 
 export type SalesType = 'terminal' | 'payment_link';
 

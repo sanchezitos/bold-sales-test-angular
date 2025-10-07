@@ -5,7 +5,7 @@
   [class.amount-display--size-xl]="size === 'xl'">
   
   <span *ngIf="!loading; else loadingTemplate">
-    {{ formattedAmount() }}
+    {{ formattedAmount }}
   </span>
   
   <ng-template #loadingTemplate>

@@ -10,6 +10,13 @@
   <!-- Contenido: Monto + Fecha -->
   <div class="sales-summary-content">
     <app-amount-display [amount]="amount" size="lg"></app-amount-display>
-    <app-date-label [date]="date" format="long"></app-date-label>
+    
+    <!-- Mostrar rango de fechas si está disponible -->
+    <div *ngIf="showDateRange" class="sales-summary-date-range">
+      {{ formattedDateRange }}
+    </div>
+    
+    <!-- Mostrar fecha simple si no hay rango -->
+    <app-date-label *ngIf="!showDateRange" [date]="displayDate" format="long"></app-date-label>
   </div>
 </div>

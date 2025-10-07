@@ -98,9 +98,9 @@ export class TransactionDetailPanelComponent implements OnInit, OnDestroy {
     if (!this.transaction) return 'alert-circle';
     
     const icons = {
-      successful: 'check-circle',
+      successful: 'success-trx',
       pending: 'clock',
-      failed: 'x-circle'
+      failed: 'decline-trx'
     };
     return icons[this.transaction.status] || 'alert-circle';
   }
@@ -126,7 +126,7 @@ export class TransactionDetailPanelComponent implements OnInit, OnDestroy {
   }
 
   getPaymentMethodLogo(): string {
-    if (!this.transaction) return '/images/payment-methods/visa.svg';
+    if (!this.transaction) return '/images/visa.svg';
     
     const { paymentMethod, franchise } = this.transaction;
     
@@ -143,22 +143,22 @@ export class TransactionDetailPanelComponent implements OnInit, OnDestroy {
         
         const logoName = franchiseMap[franchiseLower];
         if (logoName) {
-          return `/images/payment-methods/${logoName}.svg`;
+          return `/images/${logoName}.svg`;
         }
       }
-      return '/images/payment-methods/visa.svg';
+      return '/images/visa.svg';
     }
     
     // Para otros métodos de pago
     const methodLogos: Record<TransactionPaymentMethod, string> = {
-      card: '/images/payment-methods/visa.svg',
-      pse: '/images/payment-methods/pse.svg',
-      nequi: '/images/payment-methods/nequi.svg',
-      bancolombia: '/images/payment-methods/bancolombia.svg',
-      daviplata: '/images/payment-methods/daviplata.svg',
+      card: '/images/visa.svg',
+      pse: '/images/pse.svg',
+      nequi: '/images/nequi.svg',
+      bancolombia: '/images/bancolombia.svg',
+      daviplata: '/images/daviplata.svg',
     };
     
-    return methodLogos[paymentMethod] || '/images/payment-methods/visa.svg';
+    return methodLogos[paymentMethod] || '/images/visa.svg';
   }
 
   getPaymentMethodDisplay(): string {

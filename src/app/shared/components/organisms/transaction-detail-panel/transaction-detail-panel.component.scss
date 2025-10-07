@@ -133,11 +133,10 @@
   color: var(--foreground-secondary);
   cursor: pointer;
   transition: all 0.2s ease;
-  opacity: 0;
+  opacity: 1;
 
   &:hover,
   &--copied {
-    opacity: 1;
     background-color: var(--background-tertiary);
   }
 
@@ -164,7 +163,7 @@
 .transaction-detail-divider {
   border: none;
   height: 1px;
-  background-color: rgba(var(--border-rgb), 0.2);
+  background-color: var(--foreground-secondary);
   margin: 1rem 0;
 }
 

@@ -9,7 +9,15 @@ import * as FiltersActions from '../../filters/store/filters.actions';
 import { TransactionsService } from '../../../shared/services/transactions.service';
 import { FiltersService } from '../../../shared/services/filters.service';
 import { Transaction } from '../../../shared/types/transaction.types';
-import { Filters } from '../../../shared/types/filters.types';
+import { Filters, DateFilter } from '../../../shared/types/filters.types';
+import { 
+  DateRange, 
+  getDateRangeForFilter, 
+  getSalesCardTitle, 
+  getSalesCardTooltip, 
+  getTransactionsTableTitle, 
+  getDisplayDate 
+} from '../../../shared/utils/date-helpers';
 
 // Import atoms components
 import {
@@ -88,11 +96,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   selectedFilters: string[] = ['card'];
 
-  // TabGroup demo data
+  // TabGroup data - dinámico basado en el mes actual
   tabItems = [
     { id: 'today', label: 'Hoy' },
     { id: 'week', label: 'Esta semana' },
-    { id: 'month', label: 'Este mes' }
+    { id: 'currentMonth', label: this.getCurrentMonthName() }
   ];
   activeTab = 'today';
 
@@ -128,6 +136,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
     dateFilter: 'today',
     searchQuery: ''
   };
+
+  // Dynamic properties for SalesSummaryCard
+  cardTitle = 'Ventas de Hoy';
+  cardTooltip = 'Total de ventas del día actual';
+  displayDate = new Date();
+  dateRange: { start: Date; end: Date } | undefined;
+  tableTitle = 'Transacciones';
 
   // DataTable demo data
   tableData = [
@@ -240,10 +255,53 @@ export class DashboardComponent implements OnInit, OnDestroy {
     // Initialize filters when dashboard loads
     this.store.dispatch(FiltersActions.initializeFilters());
 
+
     // Subscribe to filters changes
     this.filters$.pipe(takeUntil(this.destroy$)).subscribe(filters => {
       this.currentFilters = filters;
+      this.updateDynamicContent();
     });
+
+    // Subscribe to transactions changes to update dynamic content
+    this.transactions$.pipe(takeUntil(this.destroy$)).subscribe(transactions => {
+      this.updateDynamicContent();
+    });
+  }
+
+  private updateDynamicContent(): void {
+    // Calcular fecha más reciente de las transacciones
+    const allTransactions = this.allTransactions$.pipe(takeUntil(this.destroy$));
+    allTransactions.subscribe(transactions => {
+      const mostRecentTimestamp = transactions.length > 0 
+        ? Math.max(...transactions.map(t => t.createdAt)) 
+        : undefined;
+
+      // Calcular rango de fechas para el filtro actual
+      const dateRange = getDateRangeForFilter(this.currentFilters.dateFilter as DateFilter, mostRecentTimestamp);
+
+      // Actualizar contenido dinámico
+      this.cardTitle = getSalesCardTitle(this.currentFilters.dateFilter as DateFilter);
+      this.cardTooltip = getSalesCardTooltip(this.currentFilters.dateFilter as DateFilter);
+      this.displayDate = getDisplayDate(this.currentFilters.dateFilter as DateFilter, dateRange);
+      
+      // Actualizar rango de fechas para mostrar en el card
+      const shouldShowDateRange = ['week', 'currentMonth', 'september'].includes(this.currentFilters.dateFilter);
+      this.dateRange = shouldShowDateRange ? dateRange : undefined;
+      
+      // Actualizar título de la tabla
+      this.transactions$.pipe(takeUntil(this.destroy$)).subscribe(currentTransactions => {
+        this.tableTitle = getTransactionsTableTitle(
+          this.currentFilters.dateFilter as DateFilter, 
+          currentTransactions.length
+        );
+      });
+    });
+  }
+
+  private getCurrentMonthName(): string {
+    const now = new Date();
+    const monthName = now.toLocaleDateString('es-CO', { month: 'long' });
+    return monthName.charAt(0).toUpperCase() + monthName.slice(1);
   }
 
   ngOnDestroy(): void {
@@ -288,7 +346,18 @@ export class DashboardComponent implements OnInit, OnDestroy {
   onTabChange(tabId: string): void {
     console.log('Tab changed to:', tabId);
     this.activeTab = tabId;
-   // alert(`Tab seleccionado: ${tabId}`);
+    
+    // Mapear periodos a filtros de fecha
+    const dateFilterMap: Record<string, DateFilter> = {
+      'today': 'today',
+      'week': 'week',
+      'currentMonth': 'currentMonth'
+    };
+    
+    const newDateFilter = dateFilterMap[tabId] || 'today';
+    
+    // Actualizar el filtro de fecha en el servicio
+    this.filtersService.setDateFilter(newDateFilter);
   }
 
   onTransactionClick(transaction: any): void {

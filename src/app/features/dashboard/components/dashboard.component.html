@@ -5,11 +5,12 @@
         <div class="dashboard-main-content">
             <div class="dashboard-summary">
                 <app-sales-summary-card 
-                    title="Ventas de Hoy" 
+                    [title]="cardTitle" 
                     [amount]="(total$ | async) || 0" 
-                    [date]="currentDate" 
+                    [date]="displayDate" 
+                    [dateRange]="dateRange"
                     [showInfo]="true"
-                    infoTooltip="Total de ventas del día actual" 
+                    [infoTooltip]="cardTooltip" 
                     (infoClick)="onSalesInfoClick()">
                 </app-sales-summary-card>
             </div>
@@ -39,7 +40,7 @@
         <div class="dashboard-table">
             <app-transactions-table 
                 [transactions]="(transactions$ | async) || []" 
-                [title]="'Transacciones'"
+                [title]="tableTitle"
                 [showDeductions]="true"
                 [searchPlaceholder]="'Buscar por ID, Método de pago, Tipo de venta...'"
                 [searchValue]="currentFilters.searchQuery"
