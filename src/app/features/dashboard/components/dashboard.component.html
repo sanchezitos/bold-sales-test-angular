@@ -4,8 +4,13 @@
         <!-- Sales Summary Card -->
         <div class="dashboard-main-content">
             <div class="dashboard-summary">
-                <app-sales-summary-card title="Ventas de Hoy" [amount]="1250000" [date]="currentDate" [showInfo]="true"
-                    infoTooltip="Total de ventas del día actual" (infoClick)="onSalesInfoClick()">
+                <app-sales-summary-card 
+                    title="Ventas de Hoy" 
+                    [amount]="(total$ | async) || 0" 
+                    [date]="currentDate" 
+                    [showInfo]="true"
+                    infoTooltip="Total de ventas del día actual" 
+                    (infoClick)="onSalesInfoClick()">
                 </app-sales-summary-card>
             </div>
             <!-- Transactions Section -->
@@ -18,7 +23,12 @@
 
                 <!-- Filter Button -->
                 <div class="dashboard-filters">
-                    <app-filter-button [count]="selectedFilters.length" (onClick)="onFilterButtonClick($event)">
+                    <app-filter-button 
+                        [count]="(activeFiltersCount$ | async) || 0"
+                        [currentSalesTypes]="(filters$ | async)?.salesTypes || []"
+                        [currentPaymentMethods]="(filters$ | async)?.paymentMethods || []"
+                        (onClick)="onFilterButtonClick($event)"
+                        (applyFilters)="onFiltersApply($event)">
                     </app-filter-button>
                 </div>
 
@@ -27,10 +37,20 @@
             </div>
         </div>
         <div class="dashboard-table">
-            <app-transactions-table [transactions]="sampleTransactions" [title]="'Transacciones'"
-                [showDeductions]="true" (transactionClick)="onTransactionClick($event)">
+            <app-transactions-table 
+                [transactions]="(transactions$ | async) || []" 
+                [title]="'Transacciones'"
+                [showDeductions]="true" 
+                (transactionClick)="onTransactionClick($event)">
             </app-transactions-table>
         </div>
     </div>
+
+    <!-- Transaction Detail Panel -->
+    <app-transaction-detail-panel
+        [isOpen]="isDetailPanelOpen"
+        [transaction]="selectedTransaction"
+        (close)="onDetailPanelClose()">
+    </app-transaction-detail-panel>
 
 </div>

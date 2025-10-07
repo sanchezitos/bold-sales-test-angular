@@ -1,17 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Transaction } from '../../../types/transaction.types';
 
-export interface Transaction {
-  id: string;
-  transactionReference: string;
-  amount: number;
-  deduction?: number;
-  status: 'successful' | 'pending' | 'failed';
-  paymentMethod: string;
-  franchise?: string;
-  salesType: 'payment_link' | 'terminal';
-  createdAt: string;
-}
+// Re-export Transaction type for other components
+export type { Transaction };
 
 @Component({
   selector: 'app-transaction-card',
@@ -123,8 +115,8 @@ export class TransactionCardComponent {
     }).format(amount).replace('COP', '$');
   }
 
-  formatDateTime(dateString: string): string {
-    const date = new Date(dateString);
+  formatDateTime(timestamp: number): string {
+    const date = new Date(timestamp);
     return new Intl.DateTimeFormat('es-CO', {
       day: '2-digit',
       month: '2-digit',

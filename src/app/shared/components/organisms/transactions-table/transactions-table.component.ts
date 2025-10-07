@@ -3,11 +3,28 @@ import { CommonModule } from '@angular/common';
 import { DataTableComponent, ColumnDef } from '../../molecules/data-table/data-table.component';
 import { TransactionCardComponent, Transaction } from '../../molecules/transaction-card/transaction-card.component';
 import { GradientHeaderComponent } from '../../molecules';
+import {
+  TransactionStatusCellComponent,
+  DateTimeCellComponent,
+  PaymentMethodCellComponent,
+  TransactionIdCellComponent,
+  AmountCellComponent
+} from '../../molecules/table-cells';
 
 @Component({
   selector: 'app-transactions-table',
   standalone: true,
-  imports: [CommonModule, DataTableComponent, TransactionCardComponent, GradientHeaderComponent],
+  imports: [
+    CommonModule, 
+    DataTableComponent, 
+    TransactionCardComponent, 
+    GradientHeaderComponent,
+    TransactionStatusCellComponent,
+    DateTimeCellComponent,
+    PaymentMethodCellComponent,
+    TransactionIdCellComponent,
+    AmountCellComponent
+  ],
   templateUrl: './transactions-table.component.html',
   styleUrls: ['./transactions-table.component.scss']
 })
@@ -63,6 +80,29 @@ export class TransactionsTableComponent {
     }
   ];
 
+  // Helper methods for getting cell data
+  getTransactionStatusData(row: Transaction) {
+    return {
+      type: (row.salesType === 'payment_link' ? 'link' : 'terminal') as 'link' | 'terminal',
+      status: this.getTransactionStatusTitle(row.status)
+    };
+  }
+
+  getPaymentMethodData(row: Transaction) {
+    return {
+      paymentMethod: row.paymentMethod as any,
+      franchise: row.franchise
+    };
+  }
+
+  getAmountData(row: Transaction) {
+    return {
+      amount: row.amount,
+      deduction: this.showDeductions ? row.deduction : undefined,
+      align: 'left' as const
+    };
+  }
+
   // Render methods for table cells
   renderTransactionStatus(row: Transaction): string {
     const type = row.salesType === 'payment_link' ? 'link' : 'terminal';
@@ -77,8 +117,8 @@ export class TransactionsTableComponent {
     `;
   }
 
-  renderDateTime(dateString: string): string {
-    const date = new Date(dateString);
+  renderDateTime(timestamp: number): string {
+    const date = new Date(timestamp);
     return new Intl.DateTimeFormat('es-CO', {
       day: '2-digit',
       month: '2-digit',

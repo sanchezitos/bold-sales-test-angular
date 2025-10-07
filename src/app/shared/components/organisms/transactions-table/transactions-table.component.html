@@ -11,16 +11,77 @@
 
   <!-- Vista Desktop: Tabla -->
   <div *ngIf="transactions && showTable()" class="transactions-table-desktop">
-    <app-data-table
-      [data]="transactions"
-      [columns]="tableColumns"
-      [getRowKey]="getRowKeyFn"
-      [emptyMessage]="'No se encontraron transacciones'"
-      [showRowBorder]="showRowBorderFn"
-      [rowBorderColor]="'var(--bold-blue)'"
-      [rowClassName]="'hover:bg-background-secondary/50'"
-      (rowClick)="onRowClick($event)">
-    </app-data-table>
+    <div class="w-full overflow-x-auto">
+      <table class="w-full border-collapse">
+        <!-- Header -->
+        <thead>
+          <tr class="transactions-table-header">
+            <th class="transactions-table-header-cell">Transacción</th>
+            <th class="transactions-table-header-cell">Fecha y Hora</th>
+            <th class="transactions-table-header-cell">Método de Pago</th>
+            <th class="transactions-table-header-cell">ID Transacción</th>
+            <th class="transactions-table-header-cell">Monto</th>
+          </tr>
+        </thead>
+
+        <!-- Body -->
+        <tbody>
+          <tr *ngIf="transactions.length === 0" class="transactions-table-empty-row">
+            <td colspan="5" class="transactions-table-empty-cell">
+              No se encontraron transacciones
+            </td>
+          </tr>
+          
+          <tr 
+            *ngFor="let transaction of transactions; trackBy: trackByFn; let i = index"
+            class="transactions-table-row"
+            [class.transactions-table-row--bordered]="showRowBorderFn(transaction, i)"
+            (click)="onTransactionClick(transaction)">
+            
+            <!-- Status Cell -->
+            <td class="transactions-table-cell">
+              <app-transaction-status-cell
+                [type]="getTransactionStatusData(transaction).type"
+                [status]="getTransactionStatusData(transaction).status">
+              </app-transaction-status-cell>
+            </td>
+            
+            <!-- DateTime Cell -->
+            <td class="transactions-table-cell">
+              <app-datetime-cell
+                [date]="transaction.createdAt"
+                [format]="'full'">
+              </app-datetime-cell>
+            </td>
+            
+            <!-- Payment Method Cell -->
+            <td class="transactions-table-cell">
+              <app-payment-method-cell
+                [paymentMethod]="getPaymentMethodData(transaction).paymentMethod"
+                [franchise]="getPaymentMethodData(transaction).franchise">
+              </app-payment-method-cell>
+            </td>
+            
+            <!-- Transaction ID Cell -->
+            <td class="transactions-table-cell">
+              <app-transaction-id-cell
+                [id]="transaction.transactionReference"
+                [copiable]="true">
+              </app-transaction-id-cell>
+            </td>
+            
+            <!-- Amount Cell -->
+            <td class="transactions-table-cell">
+              <app-amount-cell
+                [amount]="getAmountData(transaction).amount"
+                [deduction]="getAmountData(transaction).deduction"
+                [align]="'left'">
+              </app-amount-cell>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Vista Mobile: Lista -->

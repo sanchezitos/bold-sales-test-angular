@@ -1,0 +1,24 @@
+.transaction-status-icon {
+  display: inline-block;
+  vertical-align: middle;
+  
+  &--terminal {
+    // Estilos específicos para el icono de terminal
+  }
+  
+  &--link {
+    // Estilos específicos para el icono de link
+  }
+  
+  &--sm {
+    // Tamaño pequeño
+  }
+  
+  &--md {
+    // Tamaño mediano
+  }
+  
+  &--lg {
+    // Tamaño grande
+  }
+}

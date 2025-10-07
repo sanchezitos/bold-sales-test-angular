@@ -1,0 +1,14 @@
+<div class="transaction-id-cell">
+  <span class="transaction-id-cell__text">
+    {{ id }}
+  </span>
+  
+  <button
+    *ngIf="copiable"
+    type="button"
+    (click)="handleCopy()"
+    class="transaction-id-cell__copy"
+    [class.transaction-id-cell__copy--copied]="copied"
+    [title]="copied ? 'Copiado' : 'Copiar ID'">
+  </button>
+</div>

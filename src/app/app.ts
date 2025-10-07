@@ -2,13 +2,14 @@ import { Component, OnInit, signal, computed } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 import { ThemeService } from './core/services/theme.service';
 import { HeaderComponent } from './shared/components/organisms/header/header.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, FormsModule, HeaderComponent],
+  imports: [RouterOutlet, CommonModule, FormsModule, HttpClientModule, HeaderComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })

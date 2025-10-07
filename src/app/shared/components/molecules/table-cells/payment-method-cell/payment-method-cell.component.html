@@ -1,0 +1,14 @@
+<div class="payment-method-cell">
+  <!-- Logo del método de pago -->
+  <div class="payment-method-cell__logo">
+    <img
+      [src]="getPaymentMethodLogo()"
+      [alt]="paymentMethod"
+      class="payment-method-cell__image">
+  </div>
+  
+  <!-- Texto del método de pago -->
+  <span class="payment-method-cell__text">
+    {{ getPaymentMethodDisplay() }}
+  </span>
+</div>

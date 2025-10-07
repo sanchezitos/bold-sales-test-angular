@@ -12,3 +12,6 @@ export * from './date-label/date-label.component';
 export * from './tab-group/tab-group.component';
 export * from './navigation/navigation.component';
 export * from './filter-option/filter-option.component';
+
+// Table Cells Components
+export * from './table-cells';

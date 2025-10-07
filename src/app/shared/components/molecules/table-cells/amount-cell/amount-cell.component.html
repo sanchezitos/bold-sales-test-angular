@@ -1,0 +1,16 @@
+<div [class]="containerClass">
+  <!-- Monto principal -->
+  <span class="amount-cell__amount">
+    {{ formatCurrency(amount) }}
+  </span>
+
+  <!-- Deducción (opcional) -->
+  <div *ngIf="deduction && deduction > 0" class="amount-cell__deduction">
+    <span class="amount-cell__deduction-label">
+      {{ deductionLabel }}
+    </span>
+    <span class="amount-cell__deduction-amount">
+      - {{ formatCurrency(deduction) }}
+    </span>
+  </div>
+</div>
