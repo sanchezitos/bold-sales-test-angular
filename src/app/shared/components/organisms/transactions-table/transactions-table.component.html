@@ -20,7 +20,7 @@
   </div>
 
   <!-- Vista Desktop: Tabla -->
-  <div *ngIf="transactions && showTable()" class="transactions-table-desktop">
+  <div *ngIf="transactions && isDesktop" class="transactions-table-desktop">
     <div class="w-full overflow-x-auto">
       <table class="w-full border-collapse">
         <!-- Header -->
@@ -95,7 +95,7 @@
   </div>
 
   <!-- Vista Mobile: Lista -->
-  <div *ngIf="transactions && !showTable()" class="transactions-table-mobile">
+  <div *ngIf="transactions && !isDesktop" class="transactions-table-mobile">
     <div *ngIf="transactions.length === 0" class="transactions-table-empty">
       <p>No se encontraron transacciones</p>
     </div>
