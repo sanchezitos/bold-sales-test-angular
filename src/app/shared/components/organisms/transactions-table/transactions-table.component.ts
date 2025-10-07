@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, computed, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, OnChanges, SimpleChanges, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -65,10 +65,13 @@ export class TransactionsTableComponent implements OnInit, OnDestroy, OnChanges 
   canPreviousPage = false;
   canNextPage = false;
 
-  // Computed properties
-  showTable = computed(() => {
-    return window.innerWidth >= 768; // md breakpoint
-  });
+  // Responsive property
+  isDesktop = window.innerWidth >= 768;
+
+  @HostListener('window:resize')
+  onResize() {
+    this.isDesktop = window.innerWidth >= 768;
+  }
 
   constructor(public paginationService: PaginationService) {
     // Inicializar observables después de la inyección del servicio
