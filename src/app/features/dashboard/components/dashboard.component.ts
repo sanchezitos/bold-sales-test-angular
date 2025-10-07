@@ -1,9 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Store } from '@ngrx/store';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 
 import { AppState } from '../../../store/app.state';
 import * as FiltersActions from '../../filters/store/filters.actions';
+import { TransactionsService } from '../../../shared/services/transactions.service';
+import { FiltersService } from '../../../shared/services/filters.service';
+import { Transaction } from '../../../shared/types/transaction.types';
+import { Filters } from '../../../shared/types/filters.types';
 
 // Import atoms components
 import {
@@ -34,7 +40,8 @@ import {
 // Import organisms components
 import {
   SalesSummaryCardComponent,
-  TransactionsTableComponent
+  TransactionsTableComponent,
+  TransactionDetailPanelComponent
 } from '../../../shared/components/organisms';
 
 @Component({
@@ -61,12 +68,14 @@ import {
     PaginationComponent,
     TabGroupComponent,
     SalesSummaryCardComponent,
-    TransactionsTableComponent
+    TransactionsTableComponent,
+    TransactionDetailPanelComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit {
+export class DashboardComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>();
   showComponents = false;
   currentDate = new Date();
   searchValue = '';
@@ -95,10 +104,31 @@ export class DashboardComponent implements OnInit {
     amount: 150000,
     deduction: 5000,
     status: 'successful' as const,
-    paymentMethod: 'card',
+    paymentMethod: 'card' as const,
     franchise: 'visa',
     salesType: 'terminal' as const,
-    createdAt: '2025-10-04T22:15:08Z'
+    createdAt: Date.now() - 3600000 // 1 hora atrás
+  };
+
+  // TransactionDetailPanel state
+  isDetailPanelOpen = false;
+  selectedTransaction: any = null;
+
+  // API Data
+  transactions$: Observable<Transaction[]>;
+  allTransactions$: Observable<Transaction[]>;
+  total$: Observable<number>;
+  isLoading$: Observable<boolean>;
+  error$: Observable<string | null>;
+  filters$: Observable<Filters>;
+  activeFiltersCount$: Observable<number>;
+
+  // Current state
+  currentFilters: Filters = {
+    salesTypes: [],
+    paymentMethods: [],
+    dateFilter: 'today',
+    searchQuery: ''
   };
 
   // DataTable demo data
@@ -193,11 +223,34 @@ export class DashboardComponent implements OnInit {
     }
   ];
 
-  constructor(private store: Store<AppState>) {}
+  constructor(
+    private store: Store<AppState>,
+    private transactionsService: TransactionsService,
+    public filtersService: FiltersService
+  ) {
+    // Initialize observables
+    this.transactions$ = this.transactionsService.filteredTransactions$;
+    this.allTransactions$ = this.transactionsService.transactions$;
+    this.total$ = this.transactionsService.total$;
+    this.isLoading$ = this.transactionsService.isLoading$;
+    this.error$ = this.transactionsService.error$;
+    this.filters$ = this.filtersService.filters$;
+    this.activeFiltersCount$ = this.filtersService.activeFiltersCount$;
+  }
 
   ngOnInit(): void {
     // Initialize filters when dashboard loads
     this.store.dispatch(FiltersActions.initializeFilters());
+
+    // Subscribe to filters changes
+    this.filters$.pipe(takeUntil(this.destroy$)).subscribe(filters => {
+      this.currentFilters = filters;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   testComponents(): void {
@@ -205,7 +258,7 @@ export class DashboardComponent implements OnInit {
   }
 
   // Demo event handlers
-  onSearchChange(query: string): void {
+  onSearchQueryChange(query: string): void {
     console.log('Search query:', query);
     this.searchValue = query;
   }
@@ -242,7 +295,8 @@ export class DashboardComponent implements OnInit {
 
   onTransactionClick(transaction: any): void {
     console.log('Transaction clicked:', transaction);
-    alert(`Transacción ${transaction.transactionReference} seleccionada`);
+    this.selectedTransaction = transaction;
+    this.isDetailPanelOpen = true;
   }
 
   onTableRowClick(event: any): void {
@@ -288,4 +342,56 @@ export class DashboardComponent implements OnInit {
   // Helper functions for DataTable
   getRowKeyFn = (row: any, index: number) => row.id;
   showRowBorderFn = (row: any, index: number) => index % 2 === 0;
+
+  // TransactionDetailPanel methods
+  onDetailPanelClose(): void {
+    this.isDetailPanelOpen = false;
+    this.selectedTransaction = null;
+  }
+
+  // Filter methods
+  onFiltersApply(filters: { salesTypes: string[], paymentMethods: string[] }): void {
+    // Primero limpiar todos los filtros de tipos de venta y métodos de pago
+    this.filtersService.clearSalesTypes();
+    this.filtersService.clearPaymentMethods();
+    
+    // Aplicar los nuevos filtros de tipos de venta
+    filters.salesTypes.forEach(type => {
+      this.filtersService.toggleSalesType(type as any);
+    });
+    
+    // Aplicar los nuevos filtros de métodos de pago
+    filters.paymentMethods.forEach(method => {
+      this.filtersService.togglePaymentMethod(method as any);
+    });
+  }
+
+  onSearchChange(value: string): void {
+    this.filtersService.setSearchQuery(value);
+  }
+
+  onDateFilterChange(dateFilter: string): void {
+    this.filtersService.setDateFilter(dateFilter as any);
+  }
+
+  onClearFilters(): void {
+    this.filtersService.clearFilters();
+  }
+
+  // Filter toggle methods
+  onToggleSalesType(type: string): void {
+    this.filtersService.toggleSalesType(type as any);
+  }
+
+  onTogglePaymentMethod(method: string): void {
+    this.filtersService.togglePaymentMethod(method as any);
+  }
+
+  onClearSalesTypes(): void {
+    this.filtersService.clearSalesTypes();
+  }
+
+  onRefetch(): void {
+    this.transactionsService.refetch();
+  }
 }

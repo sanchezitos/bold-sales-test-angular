@@ -32,8 +32,8 @@
   }
 }
 .dashboard-main-content {
-  display: flex;
-  grid-template-columns: 40% 60%;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
   gap: 0.5rem; // gap-2
 }
 
@@ -50,6 +50,7 @@
 
 .dashboard-tabs {
   // Tab group styling
+  width: 100%;
 }
 
 .dashboard-filters {

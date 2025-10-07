@@ -1,0 +1,41 @@
+.transaction-id-cell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  &__text {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--foreground-secondary);
+  }
+
+  &__copy {
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    padding: 0.25rem;
+    border-radius: 0.25rem;
+    border: none;
+    background: none;
+    cursor: pointer;
+    color: var(--foreground-muted);
+
+    &:hover {
+      opacity: 1;
+      background-color: var(--background-tertiary);
+    }
+
+    &--copied {
+      opacity: 1;
+      color: var(--success);
+    }
+
+    &:focus {
+      outline: none;
+      box-shadow: 0 0 0 2px rgba(18, 30, 108, 0.3);
+    }
+  }
+}
+
+.transaction-id-cell:hover .transaction-id-cell__copy {
+  opacity: 1;
+}

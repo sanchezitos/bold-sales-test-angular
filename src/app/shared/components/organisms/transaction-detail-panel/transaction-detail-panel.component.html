@@ -1,0 +1,132 @@
+<!-- Overlay -->
+<div
+  *ngIf="isOpen"
+  class="transaction-detail-overlay"
+  [class.transaction-detail-overlay--visible]="isOpen"
+  (click)="onOverlayClick()">
+</div>
+
+<!-- Panel -->
+<div
+  *ngIf="isOpen && transaction"
+  class="transaction-detail-panel"
+  [class.transaction-detail-panel--visible]="isOpen">
+  
+  <!-- Header -->
+  <div class="transaction-detail-header">
+    <button
+      type="button"
+      (click)="onClose()"
+      class="transaction-detail-close"
+      aria-label="Cerrar">
+      <app-icon name="close" [size]="24"></app-icon>
+    </button>
+  </div>
+
+  <!-- Content -->
+  <div class="transaction-detail-content">
+    <!-- Success Icon -->
+    <div class="transaction-detail-icon">
+      <div 
+        class="transaction-detail-icon-bg"
+        [style.background-color]="getStatusColor() + '20'">
+        <app-icon 
+          [name]="getStatusIcon()"
+          [size]="32">
+        </app-icon>
+      </div>
+    </div>
+
+    <!-- Título -->
+    <h4 class="transaction-detail-title">
+      {{ getStatusTitle() }}
+    </h4>
+
+    <!-- Monto -->
+    <div class="transaction-detail-amount">
+      {{ formatCurrency(transaction.amount) }}
+    </div>
+
+    <!-- Fecha -->
+    <p class="transaction-detail-date">
+      {{ formatDateTime(transaction.createdAt) }}
+    </p>
+
+    <!-- Detalles -->
+    <div class="transaction-detail-details">
+      <!-- ID Transacción -->
+      <div class="transaction-detail-row">
+        <p class="transaction-detail-label">
+          ID Bold
+        </p>
+        <div class="transaction-detail-value-group">
+          <button
+            type="button"
+            (click)="handleCopy()"
+            class="transaction-detail-copy"
+            [class.transaction-detail-copy--copied]="copied"
+            [title]="copied ? 'Copiado' : 'Copiar ID'">
+            <app-icon 
+              [name]="copied ? 'check' : 'copy'" 
+              size="sm">
+            </app-icon>
+          </button>
+          <p class="transaction-detail-value">
+            {{ transaction.transactionReference }}
+          </p>
+        </div>
+      </div>
+
+      <!-- Deducción -->
+      <div 
+        *ngIf="transaction.deduction && transaction.deduction > 0"
+        class="transaction-detail-row">
+        <p class="transaction-detail-label">
+          Deducción Bold
+        </p>
+        <p class="transaction-detail-value transaction-detail-value--deduction">
+          - {{ formatCurrency(transaction.deduction) }}
+        </p>
+      </div>
+
+      <hr class="transaction-detail-divider">
+
+      <!-- Método de pago -->
+      <div class="transaction-detail-row">
+        <p class="transaction-detail-label">
+          Método de pago
+        </p>
+        <div class="transaction-detail-payment-method">
+          <div class="transaction-detail-payment-logo">
+            <img
+              [src]="getPaymentMethodLogo()"
+              [alt]="'Logo ' + transaction.paymentMethod"
+              width="32"
+              height="32"
+              class="transaction-detail-payment-image">
+          </div>
+          <span class="transaction-detail-payment-text">
+            {{ getPaymentMethodDisplay() }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Tipo de pago -->
+      <div class="transaction-detail-row">
+        <p class="transaction-detail-label">
+          Tipo de pago
+        </p>
+        <div class="transaction-detail-sales-type">
+          <app-transaction-status-icon
+            [type]="transaction.salesType === 'payment_link' ? 'link' : 'terminal'"
+            size="md"
+            [style.color]="'var(--bold-blue)'">
+          </app-transaction-status-icon>
+          <span class="transaction-detail-sales-type-text">
+            {{ formatSalesType() }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -11,3 +11,5 @@ export * from './dropdown/dropdown.component';
 export * from './tab/tab.component';
 export * from './logo/logo.component';
 export * from './theme-toggle/theme-toggle.component';
+export * from './icon/icon.component';
+export * from './transaction-status-icon/transaction-status-icon.component';

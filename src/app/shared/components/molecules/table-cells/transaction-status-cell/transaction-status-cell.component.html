@@ -1,0 +1,12 @@
+<div class="transaction-status-cell">
+  <app-transaction-status-icon
+    [type]="type"
+    size="md"
+    [style.color]="'var(--bold-blue)'">
+  </app-transaction-status-icon>
+  <span 
+    class="transaction-status-cell__text"
+    [style.color]="'var(--bold-blue)'">
+    {{ status }}
+  </span>
+</div>
