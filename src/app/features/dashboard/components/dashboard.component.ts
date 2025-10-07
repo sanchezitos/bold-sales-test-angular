@@ -32,7 +32,6 @@ import {
   AmountDisplayComponent,
   GradientHeaderComponent,
   DateLabelComponent,
-  DataTableComponent,
   PaginationComponent,
   TabGroupComponent
 } from '../../../shared/components/molecules';
@@ -64,7 +63,6 @@ import {
     AmountDisplayComponent,
     GradientHeaderComponent,
     DateLabelComponent,
-    DataTableComponent,
     PaginationComponent,
     TabGroupComponent,
     SalesSummaryCardComponent,

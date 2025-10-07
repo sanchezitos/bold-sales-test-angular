@@ -1,8 +1,9 @@
-import { Component, Input, Output, EventEmitter, computed } from '@angular/core';
+import { Component, Input, Output, EventEmitter, computed, OnInit, OnDestroy, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { DataTableComponent, ColumnDef } from '../../molecules/data-table/data-table.component';
+import { Subject, combineLatest } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
 import { TransactionCardComponent, Transaction } from '../../molecules/transaction-card/transaction-card.component';
-import { GradientHeaderComponent } from '../../molecules';
+import { GradientHeaderComponent, SearchBarComponent, PaginationComponent } from '../../molecules';
 import {
   TransactionStatusCellComponent,
   DateTimeCellComponent,
@@ -10,15 +11,19 @@ import {
   TransactionIdCellComponent,
   AmountCellComponent
 } from '../../molecules/table-cells';
+import { PaginationService } from '../../../services/pagination.service';
+import { PaginationConfig, PaginationState } from '../../../types/pagination.types';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-transactions-table',
   standalone: true,
   imports: [
     CommonModule, 
-    DataTableComponent, 
     TransactionCardComponent, 
     GradientHeaderComponent,
+    SearchBarComponent,
+    PaginationComponent,
     TransactionStatusCellComponent,
     DateTimeCellComponent,
     PaymentMethodCellComponent,
@@ -28,57 +33,90 @@ import {
   templateUrl: './transactions-table.component.html',
   styleUrls: ['./transactions-table.component.scss']
 })
-export class TransactionsTableComponent {
+export class TransactionsTableComponent implements OnInit, OnDestroy, OnChanges {
+  private destroy$ = new Subject<void>();
+
   @Input() transactions: Transaction[] | null = null;
   @Input() onTransactionClickHandler?: (transaction: Transaction) => void;
   @Input() showDeductions = true;
   @Input() title?: string;
+  @Input() searchPlaceholder = 'Buscar transacciones...';
+  @Input() searchValue = '';
+  @Input() showPagination = true;
+  @Input() paginationConfig: PaginationConfig = {
+    pageSize: 10,
+    pageSizeOptions: [10, 20, 50, 100]
+  };
 
   @Output() transactionClick = new EventEmitter<Transaction>();
+  @Output() searchChange = new EventEmitter<string>();
+
+  // Pagination observables
+  paginatedTransactions$: Observable<Transaction[]>;
+  paginationState$: Observable<PaginationState>;
+  navigationState$: Observable<{ canPreviousPage: boolean; canNextPage: boolean }>;
+  range$: Observable<{ start: number; end: number; total: number }>;
+
+  // Pagination state properties for template
+  currentPage = 1;
+  totalPages = 1;
+  pageSize = 10;
+  totalItems = 0;
+  canPreviousPage = false;
+  canNextPage = false;
 
   // Computed properties
   showTable = computed(() => {
     return window.innerWidth >= 768; // md breakpoint
   });
 
+  constructor(public paginationService: PaginationService) {
+    // Inicializar observables después de la inyección del servicio
+    this.paginatedTransactions$ = this.paginationService.paginatedItems$;
+    this.paginationState$ = this.paginationService.paginationState$;
+    this.navigationState$ = this.paginationService.navigationState$;
+    this.range$ = this.paginationService.range$;
+  }
+
+  ngOnInit(): void {
+    // Configurar paginación
+    this.paginationService.configure(this.paginationConfig);
+
+    // Suscribirse a cambios en transactions para actualizar paginación
+    if (this.transactions) {
+      this.paginationService.setItems(this.transactions);
+    }
+
+    // Suscribirse a cambios de estado de paginación
+    this.paginationState$.pipe(takeUntil(this.destroy$)).subscribe(state => {
+      this.currentPage = state.currentPage;
+      this.totalPages = state.totalPages;
+      this.pageSize = state.pageSize;
+      this.totalItems = state.totalItems;
+    });
+
+    this.navigationState$.pipe(takeUntil(this.destroy$)).subscribe(nav => {
+      this.canPreviousPage = nav.canPreviousPage;
+      this.canNextPage = nav.canNextPage;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['transactions'] && this.transactions) {
+      this.paginationService.setItems(this.transactions);
+    }
+  }
+
   // Helper functions
   getRowKeyFn = (row: Transaction) => row.id;
   showRowBorderFn = (row: Transaction, index: number) => index % 2 === 0;
   trackByFn = (index: number, item: Transaction) => item.id;
 
-  // Table columns definition
-  tableColumns: ColumnDef<Transaction>[] = [
-    {
-      key: 'status',
-      label: 'Transacción',
-      render: (row: Transaction) => this.renderTransactionStatus(row),
-      align: 'left'
-    },
-    {
-      key: 'createdAt',
-      label: 'Fecha y Hora',
-      render: (row: Transaction) => this.renderDateTime(row.createdAt),
-      align: 'left'
-    },
-    {
-      key: 'paymentMethod',
-      label: 'Método de Pago',
-      render: (row: Transaction) => this.renderPaymentMethod(row),
-      align: 'left'
-    },
-    {
-      key: 'transactionReference',
-      label: 'ID Transacción',
-      render: (row: Transaction) => this.renderTransactionId(row.transactionReference),
-      align: 'left'
-    },
-    {
-      key: 'amount',
-      label: 'Monto',
-      render: (row: Transaction) => this.renderAmount(row),
-      align: 'left'
-    }
-  ];
 
   // Helper methods for getting cell data
   getTransactionStatusData(row: Transaction) {
@@ -103,65 +141,6 @@ export class TransactionsTableComponent {
     };
   }
 
-  // Render methods for table cells
-  renderTransactionStatus(row: Transaction): string {
-    const type = row.salesType === 'payment_link' ? 'link' : 'terminal';
-    const status = this.getTransactionStatusTitle(row.status);
-    const icon = type === 'link' ? '🔗' : '💳';
-    
-    return `
-      <div style="display: flex; align-items: center; gap: 0.75rem;">
-        <span style="color: var(--bold-blue); font-size: 1rem;">${icon}</span>
-        <span style="color: var(--bold-blue); font-size: 0.875rem; font-weight: 500;">${status}</span>
-      </div>
-    `;
-  }
-
-  renderDateTime(timestamp: number): string {
-    const date = new Date(timestamp);
-    return new Intl.DateTimeFormat('es-CO', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit'
-    }).format(date);
-  }
-
-  renderPaymentMethod(row: Transaction): string {
-    const logo = this.getPaymentMethodLogo(row.paymentMethod, row.franchise);
-    const display = this.getPaymentMethodDisplay(row.paymentMethod, row.franchise);
-    
-    return `
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <img src="${logo}" alt="${row.paymentMethod}" style="width: 1.5rem; height: 1rem; object-fit: contain;">
-        <span style="font-size: 0.875rem; color: var(--foreground);">${display}</span>
-      </div>
-    `;
-  }
-
-  renderTransactionId(id: string): string {
-    return `
-      <div style="display: flex; align-items: center; gap: 0.5rem;">
-        <span style="font-family: monospace; font-size: 0.75rem; font-weight: 600; color: var(--foreground-secondary);">${id}</span>
-        <button onclick="navigator.clipboard.writeText('${id}')" style="background: none; border: none; cursor: pointer; color: var(--foreground-muted);">📋</button>
-      </div>
-    `;
-  }
-
-  renderAmount(row: Transaction): string {
-    const amount = this.formatCurrency(row.amount);
-    const deduction = this.showDeductions && row.deduction && row.deduction > 0 
-      ? `<div style="font-size: 0.75rem; color: var(--bold-red); font-weight: 500;">- ${this.formatCurrency(row.deduction)}</div>`
-      : '';
-    
-    return `
-      <div style="text-align: left;">
-        <div style="font-size: 1rem; font-weight: 600; color: var(--bold-blue);">${amount}</div>
-        ${deduction}
-      </div>
-    `;
-  }
 
   // Helper methods
   getTransactionStatusTitle(status: string): string {
@@ -228,5 +207,26 @@ export class TransactionsTableComponent {
       this.onTransactionClickHandler(transaction);
     }
     this.transactionClick.emit(transaction);
+  }
+
+  onSearchChange(value: string): void {
+    this.searchChange.emit(value);
+  }
+
+  // Pagination methods
+  onPageChange(page: number): void {
+    this.paginationService.goToPage(page);
+  }
+
+  onPageSizeChange(size: number): void {
+    this.paginationService.setPageSize(size);
+  }
+
+  onPreviousPage(): void {
+    this.paginationService.previousPage();
+  }
+
+  onNextPage(): void {
+    this.paginationService.nextPage();
   }
 }

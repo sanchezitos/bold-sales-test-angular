@@ -1,6 +1,5 @@
 // Molecules Components
 export * from './search-bar/search-bar.component';
-export * from './data-table/data-table.component';
 export * from './pagination/pagination.component';
 export * from './filter-button/filter-button.component';
 export * from './transaction-card/transaction-card.component';

@@ -1,5 +1,9 @@
 .transactions-table {
   transition: all 0.2s ease;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .transactions-table-title {
@@ -27,6 +31,9 @@
 
 .transactions-table-desktop {
   display: none;
+  background-color: var(--background);
+  width: 100%;
+  flex: 1;
 
   @media (min-width: 768px) {
     display: block;
@@ -35,6 +42,8 @@
 
 .transactions-table-mobile {
   display: block;
+  width: 100%;
+  flex: 1;
 
   @media (min-width: 768px) {
     display: none;
@@ -50,8 +59,15 @@
   color: var(--foreground-muted);
 }
 
+.transactions-table-search {
+  padding: 1rem 1.5rem;
+  background-color: var(--background);
+  border-bottom: 1px solid var(--border);
+}
+
 .transactions-table-card {
   margin-bottom: 1rem;
+  background-color: "#000";
 
   &:last-child {
     margin-bottom: 0;
@@ -59,6 +75,43 @@
 }
 
 // Table styles
+.transactions-table-desktop .w-full {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.transactions-table-desktop table {
+  width: 100%;
+  height: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.transactions-table-desktop thead {
+  flex-shrink: 0;
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+.transactions-table-desktop tbody {
+  flex: 1;
+  display: block;
+  overflow-y: auto;
+}
+
+.transactions-table-desktop tbody tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
 .transactions-table-header {
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
@@ -70,6 +123,7 @@
   font-weight: 500;
   text-align: left;
   color: var(--foreground);
+  width: 100%;
 }
 
 .transactions-table-row {
@@ -100,4 +154,9 @@
     font-size: 0.875rem;
     color: var(--foreground-muted);
   }
+}
+
+.transactions-table-pagination {
+  border-top: 1px solid var(--border);
+  background: var(--background);
 }
