@@ -11,6 +11,14 @@
     font-weight: 300;
     color: rgba(255, 255, 255, 0.95);
     margin: 0;
+    
+    @media (max-width: 768px) {
+      font-size: 1rem;
+    }
+    
+    @media (max-width: 480px) {
+      font-size: 0.9375rem;
+    }
   }
 
   &__info-button {
@@ -32,5 +40,15 @@
     img {
       filter: brightness(0) invert(1);
     }
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0.875rem;
+    border-radius: 0.75rem 0.75rem 0 0;
+  }
+  
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+    border-radius: 0.5rem 0.5rem 0 0;
   }
 }

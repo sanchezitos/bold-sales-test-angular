@@ -1,14 +1,15 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Transaction } from '../../../types/transaction.types';
-
+import { TransactionStatusIconComponent } from '../../atoms/transaction-status-icon/transaction-status-icon.component';
+import { IconComponent } from '../../atoms/icon/icon.component';
 // Re-export Transaction type for other components
 export type { Transaction };
 
 @Component({
   selector: 'app-transaction-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TransactionStatusIconComponent, IconComponent],
   templateUrl: './transaction-card.component.html',
   styleUrls: ['./transaction-card.component.scss']
 })
@@ -52,16 +53,30 @@ export class TransactionCardComponent {
     }
   }
 
-  getStatusIcon(): string {
+  getStatusIcon(): 'success-trx' | 'decline-trx' | 'clock' {
     switch (this.transaction.status) {
       case 'successful':
-        return '✓';
+        return 'success-trx';
       case 'pending':
-        return '⏳';
+        return 'clock';
       case 'failed':
-        return '✗';
       default:
-        return '?';
+        return 'decline-trx';
+    }
+  }
+  getSalesTypeIcon(): 'terminal' | 'link' {
+    return this.transaction.salesType === 'payment_link' ? 'link' : 'terminal';
+  }
+  getStatusBadgeColor(): string {
+    switch (this.transaction.status) {
+      case 'successful':
+        return '#28a745';
+      case 'pending':
+        return '#ffc107';
+      case 'failed':
+        return '#dc3545';
+      default:
+        return '#6c757d';
     }
   }
 
@@ -71,18 +86,19 @@ export class TransactionCardComponent {
     const franchise = this.transaction.franchise?.toLowerCase();
     
     if (method === 'card') {
-      if (franchise === 'visa') return '/images/payment-methods/visa.svg';
-      if (franchise === 'mastercard') return '/images/payment-methods/mc.svg';
-      if (franchise === 'amex') return '/images/payment-methods/amex.svg';
-      return '/images/payment-methods/visa.svg'; // default
+      if (franchise === 'visa') return '/images/visa.svg';
+      if (franchise === 'mastercard') return '/images/mc.svg';
+      if (franchise === 'amex') return '/images/amex.svg';
+      if (franchise === 'diners') return '/images/diners.svg';
+      return '/images/visa.svg'; // default
     }
     
-    if (method === 'nequi') return '/images/payment-methods/nequi.svg';
-    if (method === 'pse') return '/images/payment-methods/pse.svg';
-    if (method === 'bancolombia') return '/images/payment-methods/bancolombia.svg';
-    if (method === 'daviplata') return '/images/payment-methods/daviplata.svg';
+    if (method === 'nequi') return '/images/nequi.svg';
+    if (method === 'pse') return '/images/pse.svg';
+    if (method === 'bancolombia') return '/images/bancolombia.svg';
+    if (method === 'daviplata') return '/images/daviplata.svg';
     
-    return '/images/payment-methods/visa.svg'; // fallback
+    return '/images/visa.svg'; // fallback
   }
 
   getPaymentMethodDisplay(): string {
@@ -97,10 +113,6 @@ export class TransactionCardComponent {
   }
 
   // Sales type methods
-  getSalesTypeIcon(): string {
-    return this.transaction.salesType === 'payment_link' ? '🔗' : '💳';
-  }
-
   getSalesTypeText(): string {
     return this.transaction.salesType === 'payment_link' ? 'Link de pago' : 'Datáfono terminal';
   }

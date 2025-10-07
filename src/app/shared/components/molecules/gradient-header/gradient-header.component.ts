@@ -1,10 +1,11 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TooltipComponent } from '../../atoms/tooltip/tooltip.component';
 
 @Component({
   selector: 'app-gradient-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TooltipComponent],
   templateUrl: './gradient-header.component.html',
   styleUrls: ['./gradient-header.component.scss']
 })
