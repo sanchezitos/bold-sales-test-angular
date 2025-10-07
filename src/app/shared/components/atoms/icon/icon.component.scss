@@ -1,32 +1,61 @@
 .icon {
   display: inline-block;
   vertical-align: middle;
+  color: var(--bold-blue) !important;
   
-  &--close {
-    // Estilos específicos para el icono de cerrar
+  svg {
+    color: var(--bold-blue) !important;
   }
   
-  &--check-circle {
-    // Estilos específicos para el icono de check circle
+  // Tamaños predefinidos
+  &--sm {
+    width: 16px;
+    height: 16px;
   }
   
-  &--clock {
-    // Estilos específicos para el icono de reloj
+  &--md {
+    width: 20px;
+    height: 20px;
   }
   
-  &--x-circle {
-    // Estilos específicos para el icono de x circle
+  &--lg {
+    width: 24px;
+    height: 24px;
   }
   
-  &--copy {
-    // Estilos específicos para el icono de copiar
+  &--xl {
+    width: 32px;
+    height: 32px;
   }
   
-  &--check {
-    // Estilos específicos para el icono de check
+  // Colores
+  &--muted {
+    color: var(--foreground-muted);
   }
   
-  &--alert-circle {
-    // Estilos específicos para el icono de alerta
+  &--primary {
+    color: var(--primary);
+  }
+  
+  &--success {
+    color: var(--success);
+  }
+  
+  &--warning {
+    color: var(--warning);
+  }
+  
+  &--danger {
+    color: var(--danger);
+  }
+  
+  // Hover effects
+  &--clickable {
+    cursor: pointer;
+    transition: color 0.2s ease;
+    
+    &:hover {
+      color: var(--primary);
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, computed } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { formatCurrency } from '../../../utils/formatters';
 
@@ -18,11 +18,11 @@ export class AmountDisplayComponent {
   @Input() size: AmountSize = 'xl';
   @Input() loading = false;
 
-  // Computed properties
-  formattedAmount = computed(() => {
+  // Getter for formatted amount
+  get formattedAmount(): string {
     if (this.loading) return '';
     return formatCurrency(this.amount, this.currency);
-  });
+  }
 
   // Static methods for common configurations
   static createSalesAmount(amount: number): Partial<AmountDisplayComponent> {

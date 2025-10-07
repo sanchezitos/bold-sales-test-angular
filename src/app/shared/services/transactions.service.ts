@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, switchMap, startWith } from 'rxjs/operators';
+import { map, shareReplay } from 'rxjs/operators';
 import { ApiService } from './api.service';
 import { FiltersService } from './filters.service';
 import { Transaction, TransactionResponse } from '../types/transaction.types';
-import { Filters, DateFilter } from '../types/filters.types';
+import { DateFilter } from '../types/filters.types';
 import { filterByDate, applyAllFilters } from '../utils/transaction-filters';
 
 @Injectable({
@@ -19,7 +19,7 @@ export class TransactionsService {
   public transactions$ = this.transactionsSubject.asObservable();
   public isLoading$ = this.isLoadingSubject.asObservable();
   public error$ = this.errorSubject.asObservable();
-  public filters$: Observable<Filters>;
+  public filters$: Observable<any>;
   public filteredTransactions$: Observable<Transaction[]>;
   public total$: Observable<number>;
 
@@ -43,7 +43,8 @@ export class TransactionsService {
         filtered = applyAllFilters(filtered, filters);
         
         return filtered;
-      })
+      }),
+      shareReplay(1)
     );
 
     // Initialize total observable
@@ -114,19 +115,5 @@ export class TransactionsService {
    */
   refetch(): void {
     this.loadTransactions();
-  }
-
-  /**
-   * Obtiene el estado actual de los filtros
-   */
-  getCurrentFilters(): Filters {
-    return this.filtersService.getCurrentFilters();
-  }
-
-  /**
-   * Obtiene las transacciones sin filtrar
-   */
-  getAllTransactions(): Transaction[] {
-    return this.transactionsSubject.value;
   }
 }
